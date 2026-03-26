@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>美国政府机构架构图 - US Government Structure</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: #a0a0a0;
+            font-size: 1.1em;
+        }
+
+        .branches-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .branch {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .branch:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .branch.executive {
+            border-top: 4px solid #ff6b6b;
+        }
+
+        .branch.legislative {
+            border-top: 4px solid #4ecdc4;
+        }
+
+        .branch.judicial {
+            border-top: 4px solid #45b7d1;
+        }
+
+        .branch-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            cursor: pointer;
+        }
+
+        .branch-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            margin-right: 15px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .branch.executive .branch-icon {
+            background: rgba(255, 107, 107, 0.2);
+        }
+
+        .branch.legislative .branch-icon {
+            background: rgba(78, 205, 196, 0.2);
+        }
+
+        .branch.judicial .branch-icon {
+            background: rgba(69, 183, 209, 0.2);
+        }
+
+        .branch-title h2 {
+            font-size: 1.8em;
+            margin-bottom: 5px;
+        }
+
+        .branch-title p {
+            color: #a0a0a0;
+            font-size: 0.9em;
+        }
+
+        .department {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            border-left: 3px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .department:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-left-color: #fff;
+            transform: translateX(5px);
+        }
+
+        .department-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .department-name {
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+
+        .department-role {
+            font-size: 0.85em;
+            color: #a0a0a0;
+            margin-top: 5px;
+        }
+
+        .expand-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .department.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .sub-departments {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            margin-top: 10px;
+            padding-left: 20px;
+            border-left: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .department.expanded .sub-departments {
+            max-height: 500px;
+        }
+
+        .sub-department {
+            padding: 8px 15px;
+            margin: 5px 0;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            font-size: 0.9em;
+            color: #d0d0d0;
+        }
+
+        .checks-balance {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .checks-balance h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2em;
+            color: #ffd700;
+        }
+
+        .cb-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .cb-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .cb-card h3 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            color: #4ecdc4;
+        }
+
+        .cb-card p {
+            color: #a0a0a0;
+            line-height: 1.6;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 5px;
+        }
+
+        .legend-color.executive {
+            background: #ff6b6b;
+        }
+
+        .legend-color.legislative {
+            background: #4ecdc4;
+        }
+
+        .legend-color.judicial {
+            background: #45b7d1;
+        }
+
+        .info-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .info-modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 90%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2em;
+            cursor: pointer;
+            color: #a0a0a0;
+            transition: color 0.3s;
+        }
+
+        .modal-close:hover {
+            color: #fff;
+        }
+
+        .modal-title {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #4ecdc4;
+        }
+
+        .modal-body {
+            line-height: 1.8;
+            color: #d0d0d0;
+        }
+
+        .modal-body h3 {
+            color: #fff;
+            margin: 20px 0 10px 0;
+        }
+
+        .modal-body ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .modal-body li {
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .branches-container {
+                grid-template-columns: 1fr;
+            }
+
+            .branch {
+                padding: 20px;
+            }
+        }
+
+        .animation-fade-in {
+            animation: fadeIn 0.6s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .connection-lines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #4ecdc4;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #a0a0a0;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="animation-fade-in">
+            <h1>🏛️ 美国政府机构架构</h1>
+            <p class="subtitle">US Government Structure & Organization Chart 2026</p>
+        </header>
+
+        <div class="legend animation-fade-in">
+            <div class="legend-item">
+                <div class="legend-color executive"></div>
+                <span>行政分支 (Executive)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color legislative"></div>
+                <span>立法分支 (Legislative)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color judicial"></div>
+                <span>司法分支 (Judicial)</span>
+            </div>
+        </div>
+
+        <div class="stats animation-fade-in">
+            <div class="stat-card">
+                <div class="stat-number">3</div>
+                <div class="stat-label">政府分支</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">15</div>
+                <div class="stat-label">内阁部门</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">535</div>
+                <div class="stat-label">国会议员</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">9</div>
+                <div class="stat-label">最高法院大法官</div>
+            </div>
+        </div>
+
+        <div class="branches-container">
+            <!-- 行政分支 -->
+            <div class="branch executive animation-fade-in">
+                <div class="branch-header" onclick="toggleBranch('executive')">
+                    <div class="branch-icon">🦅</div>
+                    <div class="branch-title">
+                        <h2>行政分支</h2>
+                        <p>Executive Branch</p>
+                    </div>
+                </div>
+
+                <div class="department" onclick="toggleDepartment(this)" data-info="president">
+                    <div class="department-header">
+                        <div>
+                            <div class="department-name">总统 (President)</div>
+                            <div class="department-role">国家元首、政府首脑、三军统帅</div>
+                        </div>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="sub-departments">
+                        <div class="sub-department">副总统 (Vice President)</div>
+                        <div class="sub-department">白宫办公厅 (White House Office)</div>
+                        <div class="sub-department">国家安全委员会 (NSC)</div>
+                        <div class="sub-department">行政管理和预算局 (OMB)</div>
+                    </div>
+                </div>
+
+                <div class="department" onclick="toggleDepartment(this)" data-info="cabinet">
+                    <div class="department-header">
+                        <div>
+                            <div class="department-name">内阁部门 (Cabinet Departments)</div>
+                            <div class="department-role">15 个联邦行政部门</div>
+                        </div>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="sub-departments">
+                        <div class="sub-department">国务院 (State Department)</div>
+                        <div class="sub-department">财政部 (Treasury)</div>
+                        <div class="sub-department">国防部 (Defense)</div>
+                        <div class="sub-department">司法部 (Justice)</div>
+                        <div class="sub-department">内政部 (Interior)</div>
+                        <div class="sub-department">农业部 (Agriculture)</div>
+                        <div class="sub-department">商务部 (Commerce)</div>
+                        <div class="sub-department">劳工部 (Labor)</div>
+                        <div class="sub-department">卫生与公众服务部 (HHS)</div>
+                        <div class="sub-department">住房与城市发展部 (HUD)</div>
+                        <div class="sub-department">交通部 (Transportation)</div>
+                        <div class="sub-department">能源部 (Energy)</div>
+                        <div class="sub-department">教育部 (Education)</div>
+                        <div class="sub-department">退伍军人事务部 (VA)</div>
+                        <div class="sub-department">国土安全部 (Homeland Security)</div>
+                    </div>
+                </div>
+
+                <div class="department" onclick="toggleDepartment(this)" data-info="agencies">
+                    <div class="department-header">
+                        <div>
+                            <div class="department-name">独立机构 (Independent Agencies)</div>
+                            <div class="department-role">直接向总统报告</div>
+                        </div>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="sub-departments">
+                        <div class="sub-department">中央情报局 (CIA)</div>
+                        <div class="sub-department">环保署 (EPA)</div>
+                        <div class="sub-department">NASA</div>
+                        <div class="sub-department">联邦储备系统 (Federal Reserve)</div>
+                        <div class="sub-department">社会保障局 (SSA)</div>
+                        <div class="sub-department">证券交易委员会 (SEC)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 立法分支 -->
+            <div class="branch legislative animation-fade-in">
+                <div class="branch-header" onclick="toggleBranch('legislative')">
+                    <div class="branch-icon">🏛️</div>
+                    <div class="branch-title">
+                        <h2>立法分支</h2>
+                        <p>Legislative Branch</p>
+                    </div>
+                </div>
+
+                <div class="department" onclick="toggleDepartment(this)" data-info="congress">
+                    <div class="department-header">
+                        <div>
+                            <div class="department-name">国会 (Congress)</div>
+                            <div class="department-role">最高立法机构</div>
+                        </div>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="sub-departments">
+                        <div class="sub-department">📍 参议院 (Senate) - 100 席</div>
+                        <div class="sub-department">📍 众议院 (House) - 435 席</div>
+                        <div class="sub-department">📍 国会图书馆 (Library of Congress)</div>
+                        <div class="sub-department">📍 政府问责局 (GAO)</div>
+                        <div class="sub-department">📍 国会预算办公室 (CBO)</div>
+                    </div>
+                </div>
+
+                <div class="department" onclick="toggleDepartment(this)" data-info="senate">
+                    <div class="department-header">
+                        <div>
+                            <div class="department-name">参议院 (Senate)</div>
+                            <div class="department-role">每州 2 名参议员，共 100 名</div>
+                        </div>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="sub-departments">
+                        <div class="sub-department">参议院议长 (副总统兼任)</div>
+                        <div class="sub-department">临时议长 (President Pro Tempore)</div>
+                        <div class="sub-department">多数党领袖 (Majority Leader)</div>
+                        <div class="sub-department">少数党领袖 (Minority Leader)</div>
+                        <div class="sub-department">常设委员会 (16 个)</div>
+                        <div class="sub-department">特别委员会</div>
+                    </div>
+                </div>
+
+                <div class="department" onclick="toggleDepartment(this)" data-info="house">
+                    <div class="department-header">
+                        <div>
+                            <div class="department-name">众议院 (House of Representatives)</div>
+                            <div class="department-role">按人口比例分配，共 435 名</div>
+                        </div>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="sub-departments">
+                        <div class="sub-department">众议院议长 (Speaker)</div>
+                        <div class="sub-department">多数党领袖</div>
+                        <div class="sub-department">少数党领袖</div>
+                        <div class="sub-department">常设委员会 (20 个)</div>
+                        <div class="sub-department">规则委员会 (Rules Committee)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 司法分支 -->
+            <div class="branch judicial animation-fade-in">
+                <div class="branch-header" onclick="toggleBranch('judicial')">
+                    <div class="branch-icon">⚖️</div>
+                    <div class="branch-title">
+                        <h2>司法分支</h2>
+                        <p>Judicial Branch</p>
+                    </div>
+                </div>
+
+                <div class="department" onclick="toggleDepartment(this)" data-info="scotus">
+                    <div class="department-header">
+                        <div>
+                            <div class="department-name">最高法院 (Supreme Court)</div>
+                            <div class="department-role">最高司法机构，9 名大法官</div>
+                        </div>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="sub-departments">
+                        <div class="sub-department">首席大法官 (Chief Justice)</div>
+                        <div class="sub-department">联席大法官 (8 名)</div>
+                        <div class="sub-department">由总统提名，参议院确认</div>
+                        <div class="sub-department">终身任职</div>
+                    </div>
+                </div>
+
+                <div class="department" onclick="toggleDepartment(this)" data-info="appeals">
+                    <div class="department-header">
+                        <div>
+                            <div class="department-name">上诉法院 (Courts of Appeals)</div>
+                            <div class="department-role">13 个巡回上诉法院</div>
+                        </div>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="sub-departments">
+                        <div class="sub-department">1-11 巡回法院 (按地区)</div>
+                        <div class="sub-department">DC 巡回法院</div>
+                        <div class="sub-department">联邦巡回法院 (Federal Circuit)</div>
+                        <div class="sub-department">共 179 名法官</div>
+                    </div>
+                </div>
+
+                <div class="department" onclick="toggleDepartment(this)" data-info="district">
+                    <div class="department-header">
+                        <div>
+                            <div class="department-name">地区法院 (District Courts)</div>
+                            <div class="department-role">联邦审判法院</div>
+                        </div>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="sub-departments">
+                        <div class="sub-department">94 个联邦司法辖区</div>
+                        <div class="sub-department">每个州至少 1 个地区法院</div>
+                        <div class="sub-department">共 678 名地区法官</div>
+                        <div class="sub-department">陪审团审判</div>
+                    </div>
+                </div>
+
+                <div class="department" onclick="toggleDepartment(this)" data-info="special">
+                    <div class="department-header">
+                        <div>
+                            <div class="department-name">专门法院 (Specialized Courts)</div>
+                            <div class="department-role">处理特定类型案件</div>
+                        </div>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="sub-departments">
+                        <div class="sub-department">破产法院 (Bankruptcy Court)</div>
+                        <div class="sub-department">税务法院 (Tax Court)</div>
+                        <div class="sub-department">国际贸易法院</div>
+                        <div class="sub-department">联邦索赔法院</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 制衡机制 -->
+        <div class="checks-balance animation-fade-in">
+            <h2>⚖️ 制衡机制 (Checks and Balances)</h2>
+            <div class="cb-grid">
+                <div class="cb-card">
+                    <h3>总统 → 国会</h3>
+                    <p>• 否决权 (Veto Power)<br>• 召集特别会议<br>• 立法建议权<br>• 国情咨文演讲</p>
+                </div>
+                <div class="cb-card">
+                    <h3>国会 → 总统</h3>
+                    <p>• 推翻否决 (2/3 多数)<br>• 弹劾权<br>• 批准任命<br>• 批准条约<br>• 控制预算</p>
+                </div>
+                <div class="cb-card">
+                    <h3>最高法院 → 总统/国会</h3>
+                    <p>• 司法审查 (Judicial Review)<br>• 宣布法律违宪<br>• 审查行政命令<br>• 解释宪法</p>
+                </div>
+                <div class="cb-card">
+                    <h3>总统 → 最高法院</h3>
+                    <p>• 提名大法官<br>• 赦免权<br>• 执行法院判决</p>
+                </div>
+                <div class="cb-card">
+                    <h3>国会 → 最高法院</h3>
+                    <p>• 确认大法官提名<br>• 弹劾法官<br>• 修改法院管辖权<br>• 提出宪法修正案</p>
+                </div>
+                <div class="cb-card">
+                    <h3>人民 → 所有分支</h3>
+                    <p>• 选举总统和国会议员<br>• 宪法修正案批准<br>• 言论自由和集会<br>• 陪审团制度</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 信息模态框 -->
+    <div class="info-modal" id="infoModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal()">&times;</span>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <script>
+        // 详细信息数据
+        const infoData = {
+            president: {
+                title: "🦅 美国总统 (President)",
+                content: `
+                    <h3>职责与权力</h3>
+                    <ul>
+                        <li><strong>国家元首：</strong>代表美国进行外交活动</li>
+                        <li><strong>政府首脑：</strong>领导联邦政府行政部门</li>
+                        <li><strong>三军统帅：</strong>指挥美国武装力量</li>
+                        <li><strong>立法权：</strong>签署或否决国会法案</li>
+                        <li><strong>任命权：</strong>提名内阁成员、联邦法官、大使</li>
+                        <li><strong>外交权：</strong>缔结条约（需参议院批准）</li>
+                    </ul>
+                    <h3>任期</h3>
+                    <p>每届 4 年，最多连任 2 届（第 22 修正案）</p>
+                    <h3>现任</h3>
+                    <p>第 47 任总统（2025-2029）</p>
+                `
+            },
+            cabinet: {
+                title: "🏢 内阁部门 (Cabinet Departments)",
+                content: `
+                    <h3>15 个联邦行政部门</h3>
+                    <ul>
+                        <li><strong>国务院：</strong>外交事务、国际关系</li>
+                        <li><strong>财政部：</strong>财政政策、税收、货币</li>
+                        <li><strong>国防部：</strong>军事力量、国家安全</li>
+                        <li><strong>司法部：</strong>法律执行、联邦诉讼</li>
+                        <li><strong>内政部：</strong>自然资源、公共土地</li>
+                        <li><strong>农业部：</strong>农业、食品、农村发展</li>
+                        <li><strong>商务部：</strong>经济发展、贸易、专利</li>
+                        <li><strong>劳工部：</strong>劳动标准、就业、福利</li>
+                        <li><strong>HHS：</strong>公共卫生、医疗保险</li>
+                        <li><strong>HUD：</strong>住房政策、城市发展</li>
+                        <li><strong>交通部：</strong>交通系统、基础设施</li>
+                        <li><strong>能源部：</strong>能源政策、核安全</li>
+                        <li><strong>教育部：</strong>教育政策、学生资助</li>
+                        <li><strong>退伍军人部：</strong>退伍军人福利</li>
+                        <li><strong>国土安全部：</strong>边境安全、反恐、应急管理</li>
+                    </ul>
+                `
+            },
+            agencies: {
+                title: "🔬 独立机构 (Independent Agencies)",
+                content: `
+                    <h3>主要独立机构</h3>
+                    <ul>
+                        <li><strong>CIA：</strong>情报收集与分析</li>
+                        <li><strong>EPA：</strong>环境保护、环境法规</li>
+                        <li><strong>NASA：</strong>太空探索、航空研究</li>
+                        <li><strong>美联储：</strong>货币政策、银行监管</li>
+                        <li><strong>SSA：</strong>社会保障、退休福利</li>
+                        <li><strong>SEC：</strong>证券市场监管</li>
+                        <li><strong>FBI：</strong>联邦调查、反恐</li>
+                        <li><strong>FDA：</strong>食品药品安全</li>
+                    </ul>
+                    <p><em>这些机构独立于内阁部门，直接向总统报告</em></p>
+                `
+            },
+            congress: {
+                title: "🏛️ 美国国会 (Congress)",
+                content: `
+                    <h3>立法权力</h3>
+                    <ul>
+                        <li>制定联邦法律</li>
+                        <li>宣战权</li>
+                        <li>征税和预算审批</li>
+                        <li>监管州际和国际贸易</li>
+                        <li>弹劾权</li>
+                        <li>批准条约和总统任命</li>
+                    </ul>
+                    <h3>组织结构</h3>
+                    <p>两院制：参议院 (Senate) + 众议院 (House)</p>
+                    <p>议员总数：535 名投票议员</p>
+                `
+            },
+            senate: {
+                title: "📍 参议院 (Senate)",
+                content: `
+                    <h3>组成</h3>
+                    <ul>
+                        <li>每州 2 名参议员，共 100 名</li>
+                        <li>任期 6 年，每 2 年改选 1/3</li>
+                        <li>无任期限制</li>
+                    </ul>
+                    <h3>特殊权力</h3>
+                    <ul>
+                        <li>批准总统提名（内阁、法官、大使）</li>
+                        <li>批准国际条约（需 2/3 多数）</li>
+                        <li>审判弹劾案</li>
+                    </ul>
+                    <h3>领导层</h3>
+                    <p>议长由副总统兼任，平时不投票，只在平局时投下关键一票</p>
+                `
+            },
+            house: {
+                title: "📍 众议院 (House of Representatives)",
+                content: `
+                    <h3>组成</h3>
+                    <ul>
+                        <li>按各州人口比例分配席位</li>
+                        <li>共 435 名投票议员</li>
+                        <li>任期 2 年，全部改选</li>
+                        <li>另加 6 名无投票权代表（DC 和领地）</li>
+                    </ul>
+                    <h3>特殊权力</h3>
+                    <ul>
+                        <li>发起税收法案</li>
+                        <li>发起弹劾程序</li>
+                        <li>在选举人团平局时选举总统</li>
+                    </ul>
+                    <h3>领导层</h3>
+                    <p>众议院议长是众议院领袖，也是总统继任顺序第二位</p>
+                `
+            },
+            scotus: {
+                title: "⚖️ 最高法院 (Supreme Court)",
+                content: `
+                    <h3>组成</h3>
+                    <ul>
+                        <li>1 名首席大法官 + 8 名联席大法官</li>
+                        <li>由总统提名，参议院确认</li>
+                        <li>终身任职（除非辞职、去世或被弹劾）</li>
+                    </ul>
+                    <h3>职责</h3>
+                    <ul>
+                        <li>解释宪法和联邦法律</li>
+                        <li>司法审查权（宣布法律或行政行为违宪）</li>
+                        <li>审理州际纠纷</li>
+                        <li>终审上诉法院</li>
+                    </ul>
+                    <h3>当前构成</h3>
+                    <p>9 名大法官，保守派占多数</p>
+                `
+            },
+            appeals: {
+                title: "🏢 上诉法院 (Courts of Appeals)",
+                content: `
+                    <h3>结构</h3>
+                    <ul>
+                        <li>13 个巡回上诉法院</li>
+                        <li>1-11 巡回：按地理区域划分</li>
+                        <li>DC 巡回：处理联邦机构案件</li>
+                        <li>联邦巡回：处理专利、国际贸易等专门案件</li>
+                    </ul>
+                    <h3>职责</h3>
+                    <ul>
+                        <li>审理地区法院上诉案件</li>
+                        <li>审查联邦机构决定</li>
+                        <li>通常由 3 名法官组成合议庭</li>
+                    </ul>
+                `
+            },
+            district: {
+                title: "🏛️ 地区法院 (District Courts)",
+                content: `
+                    <h3>结构</h3>
+                    <ul>
+                        <li>94 个联邦司法辖区</li>
+                        <li>每个州至少 1 个地区法院</li>
+                        <li>共 678 名地区法官</li>
+                    </ul>
+                    <h3>管辖权</h3>
+                    <ul>
+                        <li>联邦刑事案件的初审</li>
+                        <li>联邦民事案件的初审</li>
+                        <li>涉及联邦法律的案件</li>
+                        <li>不同州公民之间的纠纷（金额超过 75,000 美元）</li>
+                    </ul>
+                `
+            },
+            special: {
+                title: "🔍 专门法院 (Specialized Courts)",
+                content: `
+                    <h3>类型</h3>
+                    <ul>
+                        <li><strong>破产法院：</strong>处理破产案件</li>
+                        <li><strong>税务法院：</strong>处理联邦税务纠纷</li>
+                        <li><strong>国际贸易法院：</strong>处理贸易和关税案件</li>
+                        <li><strong>联邦索赔法院：</strong>处理对联邦政府的索赔</li>
+                        <li><strong>退伍军人索赔上诉法院：</strong>退伍军人福利</li>
+                        <li><strong>外国情报监控法院：</strong>国家安全相关</li>
+                    </ul>
+                `
+            }
+        };
+
+        function toggleDepartment(element) {
+            element.classList.toggle('expanded');
+            
+            // 显示详细信息
+            const infoKey = element.getAttribute('data-info');
+            if (infoKey && infoData[infoKey]) {
+                showModal(infoData[infoKey]);
+            }
+        }
+
+        function toggleBranch(branchName) {
+            const branch = document.querySelector(`.branch.${branchName}`);
+            const departments = branch.querySelectorAll('.department');
+            
+            const isExpanded = departments[0].classList.contains('expanded');
+            
+            departments.forEach(dept => {
+                if (isExpanded) {
+                    dept.classList.remove('expanded');
+                } else {
+                    dept.classList.add('expanded');
+                }
+            });
+        }
+
+        function showModal(info) {
+            const modal = document.getElementById('infoModal');
+            const modalBody = document.getElementById('modalBody');
+            
+            modalBody.innerHTML = `
+                <h2 class="modal-title">${info.title}</h2>
+                <div class="modal-body">${info.content}</div>
+            `;
+            
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('infoModal').classList.remove('active');
+        }
+
+        // 点击模态框外部关闭
+        document.getElementById('infoModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // ESC 键关闭模态框
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // 添加点击动画效果
+        document.querySelectorAll('.department').forEach(dept => {
+            dept.addEventListener('click', function(e) {
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.cssText = `
+                    position: absolute;
+                    width: ${size}px;
+                    height: ${size}px;
+                    left: ${x}px;
+                    top: ${y}px;
+                    background: rgba(255, 255, 255, 0.3);
+                    border-radius: 50%;
+                    transform: scale(0);
+                    animation: ripple 0.6s ease-out;
+                    pointer-events: none;
+                `;
+                
+                this.style.position = 'relative';
+                this.style.overflow = 'hidden';
+                this.appendChild(ripple);
+                
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+
+        // 添加 CSS 动画
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
