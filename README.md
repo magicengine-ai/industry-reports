@@ -14,6 +14,7 @@
 
 | 报告名称 | 行业 | 发布日期 |
 |---------|------|---------|
+| [DeerFlow 2.0 架构分析报告](reports/deerflow-2.0-architecture-analysis.html) | 技术架构/开源框架 | 2026-04-02 |
 | [中国电力结构分析报告 2025](reports/中国电力结构分析报告%202025.html) | 能源/电力 | 2026-04-01 |
 | [半导体生产行业研究报告 2026](reports/semiconductor-manufacturing-2026.html) | 半导体/生产制造 | 2026-03-27 |
 | [蓝牙芯片市场行业研究报告 2026](reports/bluetooth-chip-market-2026.html) | 半导体/蓝牙芯片 | 2026-03-27 |
