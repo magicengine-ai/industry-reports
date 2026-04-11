@@ -1,642 +1,1660 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Isaac Gym / Isaac Sim / Isaac Lab 研究报告 - NVIDIA 机器人仿真平台全面分析</title>
+    <title>行业研究报告中心 - 专业分析报告平台</title>
+    <meta name="description" content="深度行业研究报告平台，涵盖 AI、半导体、新能源、金融等 30+ 行业领域，提供数据驱动的专业分析和投资决策支持">
     <style>
         :root {
-            --nvidia-green: #76B900;
-            --dark-bg: #1a1a1a;
-            --light-bg: #f5f5f5;
-            --text-primary: #333;
-            --text-secondary: #666;
-            --border-color: #e0e0e0;
-            --accent-blue: #0066cc;
-            --warning-orange: #ff9500;
-            --success-green: #34c759;
-            --danger-red: #ff3b30;
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --warning-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            --card-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            --card-hover-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            --border-radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            line-height: 1.6;
-            color: var(--text-primary);
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+            line-height: 1.7;
+            color: #1a1a2e;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f5576c 100%);
             min-height: 100vh;
+            overflow-x: hidden;
         }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px;
+
+        /* 背景动画 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
         }
-        
-        /* Header Styles */
-        header {
-            background: white;
-            border-radius: 12px;
-            padding: 40px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+
+        /* 导航栏 */
+        .navbar {
+            background: rgba(255,255,255,0.98);
+            backdrop-filter: blur(20px);
+            padding: 18px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(102, 126, 234, 0.1);
+        }
+
+        .navbar .logo {
+            font-size: 26px;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .navbar .nav-links {
+            display: flex;
+            gap: 8px;
+        }
+
+        .navbar .nav-links a {
+            padding: 10px 20px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+            border-radius: 25px;
+            transition: var(--transition);
+        }
+
+        .navbar .nav-links a:hover {
+            background: linear-gradient(135deg, #667eea15, #764ba215);
+            color: #667eea;
+        }
+
+        /* Hero 区域 */
+        .hero {
+            background: rgba(255,255,255,0.98);
+            backdrop-filter: blur(20px);
+            padding: 100px 50px;
+            text-align: center;
+            margin: 30px 50px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
             position: relative;
             overflow: hidden;
         }
-        
-        header::before {
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.05) 0%, transparent 70%);
+            animation: rotate 30s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 52px;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .hero .tagline {
+            font-size: 20px;
+            color: #666;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .hero .tagline span {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .hero p {
+            font-size: 17px;
+            color: #888;
+            max-width: 700px;
+            margin: 0 auto 40px;
+        }
+
+        /* 搜索框 */
+        .search-box {
+            max-width: 700px;
+            margin: 40px auto;
+            display: flex;
+            gap: 12px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 18px 30px;
+            border: 2px solid #e8e8e8;
+            border-radius: 30px;
+            font-size: 16px;
+            transition: var(--transition);
+            background: white;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+
+        .search-box button {
+            padding: 18px 40px;
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .search-box button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        /* 统计栏 */
+        .stats-bar {
+            background: rgba(255,255,255,0.98);
+            backdrop-filter: blur(20px);
+            padding: 40px 50px;
+            margin: 0 50px 30px;
+            border-radius: var(--border-radius);
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+            border-radius: 12px;
+            transition: var(--transition);
+        }
+
+        .stat-item:hover {
+            background: linear-gradient(135deg, #667eea08, #764ba208);
+            transform: translateY(-3px);
+        }
+
+        .stat-item .number {
+            font-size: 48px;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .stat-item .label {
+            color: #666;
+            font-size: 15px;
+            margin-top: 8px;
+            font-weight: 500;
+        }
+
+        /* 筛选标签 */
+        .filter-bar {
+            background: rgba(255,255,255,0.98);
+            backdrop-filter: blur(20px);
+            padding: 25px 50px;
+            margin: 0 50px 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-bar span {
+            font-weight: 600;
+            color: #666;
+            margin-right: 10px;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            background: #f5f5f5;
+            border: 2px solid transparent;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: var(--transition);
+            color: #555;
+        }
+
+        .filter-btn:hover {
+            background: #e8e8e8;
+        }
+
+        .filter-btn.active {
+            background: var(--primary-gradient);
+            color: white;
+            border-color: transparent;
+        }
+
+        /* 容器 */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 50px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 35px;
+            background: rgba(255,255,255,0.98);
+            backdrop-filter: blur(20px);
+            padding: 25px 35px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+        }
+
+        .section-title {
+            font-size: 32px;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .view-toggle {
+            display: flex;
+            gap: 8px;
+        }
+
+        .view-btn {
+            padding: 10px 15px;
+            background: #f5f5f5;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: var(--transition);
+        }
+
+        .view-btn.active {
+            background: var(--primary-gradient);
+            color: white;
+        }
+
+        /* 报告网格 */
+        .reports-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .report-card {
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            cursor: pointer;
+            border: 1px solid rgba(102, 126, 234, 0.08);
+            position: relative;
+        }
+
+        .report-card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             height: 4px;
-            background: linear-gradient(90deg, var(--nvidia-green), var(--accent-blue));
+            background: var(--primary-gradient);
+            opacity: 0;
+            transition: var(--transition);
         }
-        
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 30px;
+
+        .report-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--card-hover-shadow);
         }
-        
-        .header-main h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-            background: linear-gradient(135deg, var(--nvidia-green), var(--accent-blue));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+
+        .report-card:hover::before {
+            opacity: 1;
         }
-        
-        .header-meta {
-            background: var(--light-bg);
-            padding: 20px;
-            border-radius: 8px;
-            min-width: 250px;
+
+        .report-card.featured {
+            border: 2px solid rgba(102, 126, 234, 0.3);
         }
-        
-        .meta-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--border-color);
+
+        .report-card.featured::before {
+            opacity: 1;
         }
-        
-        .meta-item:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
-        
-        .meta-label {
-            font-weight: 600;
-            color: var(--text-secondary);
-        }
-        
-        .meta-value {
-            color: var(--text-primary);
-        }
-        
-        /* Navigation */
-        nav {
-            background: white;
-            border-radius: 12px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-        }
-        
-        nav h2 {
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            color: var(--text-primary);
-        }
-        
-        .toc {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 15px;
-        }
-        
-        .toc-item {
-            display: flex;
-            align-items: center;
-            padding: 12px 20px;
-            background: var(--light-bg);
-            border-radius: 8px;
-            text-decoration: none;
-            color: var(--text-primary);
-            transition: all 0.3s ease;
-            border-left: 4px solid transparent;
-        }
-        
-        .toc-item:hover {
-            background: #e8f4f8;
-            border-left-color: var(--nvidia-green);
-            transform: translateX(5px);
-        }
-        
-        .toc-number {
-            background: var(--nvidia-green);
-            color: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
+
+        .report-card .card-image {
+            height: 180px;
+            background: var(--primary-gradient);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 15px;
-            font-weight: 600;
-            flex-shrink: 0;
-        }
-        
-        /* Content Sections */
-        section {
-            background: white;
-            border-radius: 12px;
-            padding: 40px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-        }
-        
-        section h2 {
-            font-size: 2rem;
-            margin-bottom: 25px;
-            color: var(--text-primary);
-            border-bottom: 3px solid var(--nvidia-green);
-            padding-bottom: 10px;
-        }
-        
-        section h3 {
-            font-size: 1.5rem;
-            margin: 30px 0 20px;
-            color: var(--text-primary);
-        }
-        
-        section h4 {
-            font-size: 1.2rem;
-            margin: 25px 0 15px;
-            color: var(--text-primary);
-        }
-        
-        p {
-            margin-bottom: 15px;
-            text-align: justify;
-        }
-        
-        ul, ol {
-            margin: 15px 0 15px 30px;
-        }
-        
-        li {
-            margin-bottom: 10px;
-        }
-        
-        /* Tables */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 25px 0;
-            background: white;
-            border-radius: 8px;
+            font-size: 60px;
+            position: relative;
             overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
-        
-        th {
-            background: linear-gradient(135deg, var(--nvidia-green), var(--accent-blue));
+
+        .report-card .card-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.2) 100%);
+        }
+
+        .report-card .category {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            color: #667eea;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            z-index: 1;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .report-card .content {
+            padding: 28px;
+        }
+
+        .report-card .content h3 {
+            color: #1a1a2e;
+            font-size: 20px;
+            margin-bottom: 14px;
+            line-height: 1.4;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .report-card .content p {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 20px;
+            line-height: 1.7;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .report-card .tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .report-card .tag {
+            padding: 4px 12px;
+            background: #f0f0f5;
+            border-radius: 12px;
+            font-size: 12px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .report-card .meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 20px;
+            border-top: 1px solid #f0f0f5;
+        }
+
+        .report-card .meta .date {
+            color: #999;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .report-card .meta .stats {
+            display: flex;
+            gap: 15px;
+        }
+
+        .report-card .meta .stat {
+            color: #999;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .report-card .btn {
+            display: block;
+            text-align: center;
+            background: var(--primary-gradient);
             color: white;
-            padding: 15px;
-            text-align: left;
+            text-decoration: none;
+            padding: 16px;
+            font-weight: 700;
+            margin: 0 28px 28px;
+            border-radius: 12px;
+            transition: var(--transition);
+            font-size: 15px;
+        }
+
+        .report-card .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        /* 徽章 */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-new { 
+            background: linear-gradient(135deg, #ff6b6b, #ee5a6f); 
+            color: white;
+            animation: pulse 2s infinite;
+        }
+
+        .badge-hot { 
+            background: linear-gradient(135deg, #f093fb, #f5576c); 
+            color: white;
+        }
+
+        .badge-featured { 
+            background: linear-gradient(135deg, #4facfe, #00f2fe); 
+            color: white;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        /* 行业分类 */
+        .categories {
+            background: rgba(255,255,255,0.98);
+            backdrop-filter: blur(20px);
+            padding: 60px 50px;
+            margin: 30px 50px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+        }
+
+        .categories h2 {
+            color: #1a1a2e;
+            font-size: 28px;
+            margin-bottom: 35px;
+            text-align: center;
+            font-weight: 800;
+        }
+
+        .category-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            justify-content: center;
+        }
+
+        .category-tag {
+            padding: 14px 28px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 30px;
+            color: #333;
+            text-decoration: none;
+            font-size: 15px;
             font-weight: 600;
-        }
-        
-        td {
-            padding: 15px;
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        tr:last-child td {
-            border-bottom: none;
-        }
-        
-        tr:hover {
-            background: #f8f9fa;
-        }
-        
-        /* Code Blocks */
-        pre {
-            background: #1e1e1e;
-            color: #d4d4d4;
-            padding: 20px;
-            border-radius: 8px;
-            overflow-x: auto;
-            margin: 20px 0;
-            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-        
-        code {
-            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-            background: #f0f0f0;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 0.9em;
-        }
-        
-        pre code {
-            background: none;
-            padding: 0;
-        }
-        
-        /* Diagrams */
-        .diagram {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 25px 0;
-            font-family: 'Consolas', monospace;
-            white-space: pre;
-            overflow-x: auto;
-            border: 1px solid var(--border-color);
-        }
-        
-        /* Callout Boxes */
-        .callout {
-            padding: 20px;
-            border-radius: 8px;
-            margin: 25px 0;
-            border-left: 4px solid;
-        }
-        
-        .callout-info {
-            background: #e3f2fd;
-            border-left-color: var(--accent-blue);
-        }
-        
-        .callout-warning {
-            background: #fff3e0;
-            border-left-color: var(--warning-orange);
-        }
-        
-        .callout-success {
-            background: #e8f5e9;
-            border-left-color: var(--success-green);
-        }
-        
-        .callout-title {
-            font-weight: 600;
-            margin-bottom: 10px;
+            border: 2px solid transparent;
+            transition: var(--transition);
             display: flex;
             align-items: center;
             gap: 8px;
         }
-        
-        /* Tags */
-        .tag {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-right: 8px;
-            margin-bottom: 8px;
+
+        .category-tag:hover {
+            border-color: #667eea;
+            color: #667eea;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
         }
-        
-        .tag-green {
-            background: #e8f5e9;
-            color: var(--success-green);
-        }
-        
-        .tag-orange {
-            background: #fff3e0;
-            color: var(--warning-orange);
-        }
-        
-        .tag-red {
-            background: #ffebee;
-            color: var(--danger-red);
-        }
-        
-        .tag-blue {
-            background: #e3f2fd;
-            color: var(--accent-blue);
-        }
-        
-        /* Progress Bars */
-        .progress-bar {
-            background: #e0e0e0;
-            border-radius: 10px;
-            height: 20px;
-            margin: 10px 0;
-            overflow: hidden;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--nvidia-green), var(--accent-blue));
-            border-radius: 10px;
-            transition: width 0.5s ease;
-        }
-        
-        /* Footer */
-        footer {
-            background: white;
-            border-radius: 12px;
-            padding: 30px;
+
+        /* 页脚 */
+        .footer {
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(20px);
+            color: white;
             text-align: center;
-            color: var(--text-secondary);
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            padding: 50px;
+            margin-top: 60px;
         }
-        
-        /* Responsive */
+
+        .footer h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .footer p {
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 10px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .footer-links a:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+        .footer-bottom {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 13px;
+            color: rgba(255,255,255,0.6);
+        }
+
+        /* 响应式 */
+        @media (max-width: 1200px) {
+            .reports-grid {
+                grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            }
+        }
+
         @media (max-width: 768px) {
-            .header-content {
+            .navbar {
+                padding: 15px 20px;
+            }
+
+            .navbar .nav-links {
+                display: none;
+            }
+
+            .hero {
+                padding: 60px 20px;
+                margin: 20px;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .hero .tagline {
+                font-size: 16px;
                 flex-direction: column;
+                gap: 10px;
             }
-            
-            .header-main h1 {
-                font-size: 1.8rem;
+
+            .search-box {
+                flex-direction: column;
+                margin: 30px auto;
             }
-            
-            .toc {
+
+            .stats-bar {
+                grid-template-columns: repeat(2, 1fr);
+                padding: 30px 20px;
+                margin: 0 20px 20px;
+            }
+
+            .stat-item .number {
+                font-size: 36px;
+            }
+
+            .filter-bar, .section-header {
+                padding: 20px;
+                margin: 0 20px 20px;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .container {
+                padding: 0 20px;
+            }
+
+            .reports-grid {
                 grid-template-columns: 1fr;
             }
-            
-            section {
-                padding: 25px;
+
+            .categories, .footer {
+                padding: 40px 20px;
+                margin: 20px;
             }
         }
-        
-        /* Print Styles */
-        @media print {
-            body {
-                background: white;
+
+        /* 加载动画 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
             }
-            
-            .container {
-                max-width: 100%;
-                padding: 20px;
-            }
-            
-            header, nav, section, footer {
-                box-shadow: none;
-                break-inside: avoid;
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
+
+        .report-card {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .report-card:nth-child(1) { animation-delay: 0.1s; }
+        .report-card:nth-child(2) { animation-delay: 0.2s; }
+        .report-card:nth-child(3) { animation-delay: 0.3s; }
+        .report-card:nth-child(4) { animation-delay: 0.4s; }
+        .report-card:nth-child(5) { animation-delay: 0.5s; }
+        .report-card:nth-child(6) { animation-delay: 0.6s; }
     </style>
 </head>
 <body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="logo">📊 行业研究报告中心</div>
+        <div class="nav-links">
+            <a href="#home">首页</a>
+            <a href="#reports">全部报告</a>
+            <a href="#categories">行业分类</a>
+            <a href="#about">关于我们</a>
+        </div>
+    </nav>
+
+    <!-- Hero 区域 -->
+    <div class="hero" id="home">
+        <div class="hero-content">
+            <h1>🎯 专业行业研究报告平台</h1>
+            <div class="tagline">
+                <span>📊 深度分析</span>
+                <span>📈 数据驱动</span>
+                <span>💡 决策支持</span>
+                <span>🔄 每周更新</span>
+            </div>
+            <p>涵盖 AI、半导体、新能源、金融、医疗、消费等 30+ 行业领域，为投资者和决策者提供专业、客观、深度的行业洞察</p>
+            
+            <div class="search-box">
+                <input type="text" placeholder="搜索行业、公司、关键词..." id="searchInput">
+                <button onclick="searchReports()">🔍 搜索</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 统计栏 -->
+    <div class="stats-bar">
+        <div class="stat-item">
+            <div class="number">33</div>
+            <div class="label">累计报告</div>
+        </div>
+        <div class="stat-item">
+            <div class="number">15</div>
+            <div class="label">覆盖行业</div>
+        </div>
+        <div class="stat-item">
+            <div class="number">50K+</div>
+            <div class="label">累计阅读</div>
+        </div>
+        <div class="stat-item">
+            <div class="number">每周</div>
+            <div class="label">持续更新</div>
+        </div>
+    </div>
+
+    <!-- 筛选栏 -->
+    <div class="filter-bar">
+        <span>🏷️ 快速筛选：</span>
+        <button class="filter-btn active" onclick="filterReports('all')">全部</button>
+        <button class="filter-btn" onclick="filterReports('半导体')">半导体</button>
+        <button class="filter-btn" onclick="filterReports('人工智能')">人工智能</button>
+        <button class="filter-btn" onclick="filterReports('新能源')">新能源</button>
+        <button class="filter-btn" onclick="filterReports('科技')">科技</button>
+        <button class="filter-btn" onclick="filterReports('金融')">金融</button>
+        <button class="filter-btn" onclick="filterReports('教育')">教育</button>
+    </div>
+
+    <!-- 报告列表 -->
     <div class="container">
-        <!-- Header -->
-        <header>
-            <div class="header-content">
-                <div class="header-main">
-                    <h1>🤖 Isaac Gym / Isaac Sim / Isaac Lab 研究报告</h1>
-                    <p style="font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 15px;">
-                        NVIDIA 机器人仿真与学习平台全面分析
-                    </p>
-                    <div style="margin-top: 20px;">
-                        <span class="tag tag-green">✅ 技术架构</span>
-                        <span class="tag tag-blue">📊 竞品对比</span>
-                        <span class="tag tag-green">💼 应用案例</span>
-                        <span class="tag tag-orange">🚀 未来趋势</span>
-                        <span class="tag tag-blue">💡 选型建议</span>
+        <div class="section-header">
+            <h2 class="section-title">📈 最新报告</h2>
+            <div class="view-toggle">
+                <button class="view-btn active" title="网格视图">⊞</button>
+                <button class="view-btn" title="列表视图">☰</button>
+            </div>
+        </div>
+        
+        <div class="reports-grid" id="reportsGrid">
+            
+            <!-- 报告卡片 0 - ICRA 2025 机器人研究年度回顾 -->
+            <div class="report-card featured" data-category="机器人">
+                <div class="card-image">🤖</div>
+                <div class="category">🤖 机器人/ICRA 会议</div>
+                <div class="content">
+                    <h3>ICRA 2025 机器人研究年度回顾 <span class="badge badge-new">NEW</span></h3>
+                    <p>2,847 篇论文、5,200+ 研究人员、OpenVLA 7B 参数 VLA 基础模型、LoRA 微调仅需 110M 参数、人形机器人 ARTEMIS 实现 2.1m/s 步行速度</p>
+                    <div class="tags">
+                        <span class="tag">VLA 模型</span>
+                        <span class="tag">人形机器人</span>
+                        <span class="tag">扩散策略</span>
+                        <span class="tag">触觉传感</span>
+                        <span class="tag">ICRA 2025</span>
+                    </div>
+                    <div class="meta">
+                        <span class="date">📅 2026-04-05</span>
+                        <div class="stats">
+                            <span class="stat">👁️ 最新发布</span>
+                        </div>
                     </div>
                 </div>
-                <div class="header-meta">
-                    <div class="meta-item">
-                        <span class="meta-label">📅 报告日期</span>
-                        <span class="meta-value">2026-04-11</span>
+                <a href="reports/icra-2025-retrospective.html" class="btn">📖 阅读全文</a>
+            </div>
+
+            <!-- 报告卡片 1 - 全球摩托车产业深度研究 -->
+            <div class="report-card featured" data-category="汽车">
+                <div class="card-image">🏍️</div>
+                <div class="category">🏍️ 汽车/摩托车产业</div>
+                <div class="content">
+                    <h3>全球摩托车产业深度研究报告 2026 <span class="badge badge-new">NEW</span></h3>
+                    <p>2025 年全球市场规模 768 亿美元、中国出口 3676 万辆占全球 55%、前五大厂商占 60% 份额、电动化 CAGR 4.3%、非洲市场增速 +65%，深度解析全球摩托车产业格局与趋势</p>
+                    <div class="tags">
+                        <span class="tag">市场规模</span>
+                        <span class="tag">竞争格局</span>
+                        <span class="tag">电动化</span>
+                        <span class="tag">中国出口</span>
+                        <span class="tag">Honda</span>
+                        <span class="tag">Yamaha</span>
                     </div>
-                    <div class="meta-item">
-                        <span class="meta-label">📝 版本</span>
-                        <span class="meta-value">1.0</span>
-                    </div>
-                    <div class="meta-item">
-                        <span class="meta-label">📊 研究类型</span>
-                        <span class="meta-value">技术调研</span>
-                    </div>
-                    <div class="meta-item">
-                        <span class="meta-label">📄 总章节</span>
-                        <span class="meta-value">11 章</span>
-                    </div>
-                    <div class="meta-item">
-                        <span class="meta-label">📚 参考文献</span>
-                        <span class="meta-value">50+</span>
+                    <div class="meta">
+                        <span class="date">📅 2026-04-03</span>
+                        <div class="stats">
+                            <span class="stat">👁️ 最新发布</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </header>
-
-        <!-- Navigation -->
-        <nav>
-            <h2>📑 目录</h2>
-            <div class="toc">
-                <a href="#executive-summary" class="toc-item">
-                    <span class="toc-number">1</span>
-                    <span>执行摘要</span>
-                </a>
-                <a href="#introduction" class="toc-item">
-                    <span class="toc-number">2</span>
-                    <span>引言</span>
-                </a>
-                <a href="#product-overview" class="toc-item">
-                    <span class="toc-number">3</span>
-                    <span>产品概述</span>
-                </a>
-                <a href="#technical-architecture" class="toc-item">
-                    <span class="toc-number">4</span>
-                    <span>技术架构对比</span>
-                </a>
-                <a href="#installation" class="toc-item">
-                    <span class="toc-number">5</span>
-                    <span>安装与部署</span>
-                </a>
-                <a href="#applications" class="toc-item">
-                    <span class="toc-number">6</span>
-                    <span>应用案例</span>
-                </a>
-                <a href="#competitive-analysis" class="toc-item">
-                    <span class="toc-number">7</span>
-                    <span>竞品分析</span>
-                </a>
-                <a href="#cost-licensing" class="toc-item">
-                    <span class="toc-number">8</span>
-                    <span>成本与许可</span>
-                </a>
-                <a href="#future-trends" class="toc-item">
-                    <span class="toc-number">9</span>
-                    <span>未来趋势</span>
-                </a>
-                <a href="#recommendations" class="toc-item">
-                    <span class="toc-number">10</span>
-                    <span>选型建议</span>
-                </a>
-                <a href="#appendix" class="toc-item">
-                    <span class="toc-number">11</span>
-                    <span>附录</span>
-                </a>
-            </div>
-        </nav>
-
-        <!-- Executive Summary -->
-        <section id="executive-summary">
-            <h2>1. 执行摘要</h2>
-            
-            <h3>1.1 核心发现</h3>
-            <p>本研究对 NVIDIA Isaac 系列机器人仿真与学习平台进行了全面分析，涵盖 Isaac Gym、Isaac Sim 和 Isaac Lab 三代产品。关键发现如下：</p>
-            
-            <table>
-                <thead>
-                    <tr>
-                        <th>发现领域</th>
-                        <th>核心洞察</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>技术演进</strong></td>
-                        <td>Isaac Lab 作为 Isaac Gym 的自然继承者，统一了 GPU 加速仿真与多模态学习工作流</td>
-                    </tr>
-                    <tr>
-                        <td><strong>开源战略</strong></td>
-                        <td>Isaac Sim 5.0+ 已完全开源（Apache 2.0），大幅降低使用门槛</td>
-                    </tr>
-                    <tr>
-                        <td><strong>性能优势</strong></td>
-                        <td>GPU 并行仿真可实现数万环境同时训练，比 CPU 方案快 100-1000 倍</td>
-                    </tr>
-                    <tr>
-                        <td><strong>生态整合</strong></td>
-                        <td>基于 Omniverse 和 OpenUSD 构建，支持 photorealistic 渲染与高保真物理</td>
-                    </tr>
-                    <tr>
-                        <td><strong>未来方向</strong></td>
-                        <td>Newton 物理引擎 + GR00T 基础模型代表下一代 Physical AI 方向</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <h3>1.2 关键建议</h3>
-            
-            <div class="callout callout-info">
-                <div class="callout-title">🎓 对于研究机构</div>
-                <ul>
-                    <li><strong>首选 Isaac Lab</strong>：模块化架构最适合学术研究，支持 RL/IL/运动规划等多种学习范式</li>
-                    <li><strong>利用开源优势</strong>：BSD-3 许可允许自由修改和分发，适合发表论文和开源项目</li>
-                </ul>
+                <a href="reports/全球摩托车产业深度研究报告%202026.html" class="btn">📖 阅读全文</a>
             </div>
 
-            <div class="callout callout-success">
-                <div class="callout-title">🏭 对于工业企业</div>
-                <ul>
-                    <li><strong>Isaac Sim 为核心</strong>：完整的数字孪生能力适合工业部署</li>
-                    <li><strong>考虑企业支持</strong>：Omniverse Enterprise 提供生产级支持和服务保障</li>
-                </ul>
+            <!-- 报告卡片 1 - AI 智能体每周资讯 -->
+            <div class="report-card featured" data-category="人工智能">
+                <div class="card-image">📰</div>
+                <div class="category">📰 人工智能/行业资讯</div>
+                <div class="content">
+                    <h3>AI 智能体每周资讯报告 2026-W14 <span class="badge badge-new">NEW</span></h3>
+                    <p>Anthropic 源码泄露、流氓 AI 案例爆发、Meta 内部智能体应用、60 亿美元经济价值报告、Agentic Exposure Validation 新学科、GPT-6 决战 Claude 5.0</p>
+                    <div class="tags">
+                        <span class="tag">AI 安全</span>
+                        <span class="tag">企业应用</span>
+                        <span class="tag">行业资讯</span>
+                        <span class="tag">周报</span>
+                    </div>
+                    <div class="meta">
+                        <span class="date">📅 2026-04-02</span>
+                        <div class="stats">
+                            <span class="stat">👁️ 最新发布</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="reports/ai-agent-weekly-news-2026-w14.html" class="btn">📖 阅读全文</a>
             </div>
 
-            <div class="callout callout-warning">
-                <div class="callout-title">🚀 对于初创公司</div>
-                <ul>
-                    <li><strong>从 Isaac Lab 起步</strong>：零许可成本，快速原型验证</li>
-                    <li><strong>关注 GR00T 模型</strong>：NVIDIA 新开放的人形机器人基础模型可加速开发</li>
-                </ul>
+            <!-- 报告卡片 1 - Claude Code 泄露源码分析 -->
+            <div class="report-card featured" data-category="技术架构">
+                <div class="card-image">🔍</div>
+                <div class="category">🔍 技术架构/AI 编程</div>
+                <div class="content">
+                    <h3>Claude Code 泄露源码架构分析报告 <span class="badge badge-new">NEW</span></h3>
+                    <p>Anthropic 官方 CLI 工具源码于 2026-03-31 通过 npm sourcemap 泄露，512K 行 TypeScript 代码，基于 Bun + React Ink 的终端 AI 编程助手，包含 40+ 工具、50+ 命令、IDE 桥接、多 Agent 协作系统</p>
+                    <div class="tags">
+                        <span class="tag">Bun</span>
+                        <span class="tag">React Ink</span>
+                        <span class="tag">AI Agent</span>
+                        <span class="tag">源码分析</span>
+                        <span class="tag">泄露事件</span>
+                    </div>
+                    <div class="meta">
+                        <span class="date">📅 2026-04-02</span>
+                        <div class="stats">
+                            <span class="stat">👁️ 最新发布</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="reports/claude-code-leaked-architecture-analysis.html" class="btn">📖 阅读全文</a>
             </div>
 
-            <h3>1.3 快速对比总结</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>特性</th>
-                        <th>Isaac Gym</th>
-                        <th>Isaac Sim</th>
-                        <th>Isaac Lab</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>定位</strong></td>
-                        <td>RL 专用仿真器</td>
-                        <td>通用机器人仿真平台</td>
-                        <td>机器人学习框架</td>
-                    </tr>
-                    <tr>
-                        <td><strong>状态</strong></td>
-                        <td><span class="tag tag-orange">预览版（已停止更新）</span></td>
-                        <td><span class="tag tag-green">活跃开发（v6.0）</span></td>
-                        <td><span class="tag tag-green">活跃开发（v3.0）</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong>许可证</strong></td>
-                        <td>专有预览许可</td>
-                        <td>Apache 2.0</td>
-                        <td>BSD-3</td>
-                    </tr>
-                    <tr>
-                        <td><strong>GPU 并行</strong></td>
-                        <td>✅ 原生支持</td>
-                        <td>✅ 通过 Lab</td>
-                        <td>✅ 原生支持</td>
-                    </tr>
-                    <tr>
-                        <td><strong>渲染质量</strong></td>
-                        <td>基础</td>
-                        <td>照片级真实</td>
-                        <td>可配置</td>
-                    </tr>
-                    <tr>
-                        <td><strong>推荐度</strong></td>
-                        <td>⚠️ 不推荐新项目</td>
-                        <td>⭐⭐⭐⭐</td>
-                        <td>⭐⭐⭐⭐⭐</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
+            <!-- 报告卡片 2 - DeerFlow 2.0 架构分析 -->
+            <div class="report-card featured" data-category="技术架构">
+                <div class="card-image">🦌</div>
+                <div class="category">🦌 技术架构/开源框架</div>
+                <div class="content">
+                    <h3>DeerFlow 2.0 架构分析报告 <span class="badge badge-new">NEW</span></h3>
+                    <p>字节跳动开源 Super Agent Harness，基于 LangGraph 的多 Agent 编排系统，支持 Sub-Agents 并行、Sandbox 执行、Skills 扩展、长期记忆，从 Deep Research 演进为通用 Agent 运行时基础设施</p>
+                    <div class="tags">
+                        <span class="tag">Agent 系统</span>
+                        <span class="tag">LangGraph</span>
+                        <span class="tag">多 Agent 编排</span>
+                        <span class="tag">Sandbox</span>
+                        <span class="tag">开源框架</span>
+                    </div>
+                    <div class="meta">
+                        <span class="date">📅 2026-04-02</span>
+                        <div class="stats">
+                            <span class="stat">👁️ 最新发布</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="reports/deerflow-2.0-architecture-analysis.html" class="btn">📖 阅读全文</a>
+            </div>
 
-        <!-- More sections would continue here... -->
-        <!-- For brevity, showing key sections only -->
+            <!-- 报告卡片 2 - 中国电力结构分析 -->
+            <div class="report-card featured" data-category="能源">
+                <div class="card-image">🔌</div>
+                <div class="category">🔌 能源/电力</div>
+                <div class="content">
+                    <h3>中国电力结构分析报告 2025 <span class="badge badge-new">NEW</span></h3>
+                    <p>可再生能源装机占比 60% 首超火电、风电 + 太阳能占比 47%、每 3 度电 1 度绿电、火电发电量首次下降，深度解析中国电力转型</p>
+                    <div class="tags">
+                        <span class="tag">可再生能源</span>
+                        <span class="tag">火电</span>
+                        <span class="tag">风电</span>
+                        <span class="tag">太阳能</span>
+                        <span class="tag">能源转型</span>
+                    </div>
+                    <div class="meta">
+                        <span class="date">📅 2026-04-01</span>
+                        <div class="stats">
+                            <span class="stat">👁️ 最新发布</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="reports/中国电力结构分析报告%202025.html" class="btn">📖 阅读全文</a>
+            </div>
 
-        <!-- Footer -->
-        <footer>
-            <p><strong>📄 Isaac Gym / Isaac Sim / Isaac Lab 研究报告</strong></p>
-            <p>报告完成时间：2026 年 4 月 11 日 23:50 | 版本：1.0</p>
-            <p style="margin-top: 15px; font-size: 0.9rem;">
-                本研究由 AI Research Agent 完成 • 基于 NVIDIA 官方文档、学术论文和社区资源
+            <!-- 报告卡片 1 - 半导体生产 -->
+            <div class="report-card featured" data-category="半导体">
+                <div class="card-image">🔬</div>
+                <div class="category">🔬 半导体/生产制造</div>
+                <div class="content">
+                    <h3>半导体生产行业研究报告 2026 <span class="badge badge-new">NEW</span></h3>
+                    <p>台积电 66% 份额垄断、ASML 100%EUV、日本材料 90% 份额、1.42 万亿美元市场，深度分析晶圆制造/设备/材料/封测全产业链</p>
+                    <div class="tags">
+                        <span class="tag">晶圆制造</span>
+                        <span class="tag">ASML</span>
+                        <span class="tag">台积电</span>
+                        <span class="tag">半导体设备</span>
+                        <span class="tag">先进封装</span>
+                    </div>
+                    <div class="meta">
+                        <span class="date">📅 2026-03-27</span>
+                        <div class="stats">
+                            <span class="stat">👁️ 最新发布</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="reports/semiconductor-manufacturing-2026.html" class="btn">📖 阅读全文</a>
+            </div>
+
+            <!-- 报告卡片 1 - 蓝牙芯片 -->
+            <div class="report-card featured" data-category="半导体">
+                <div class="card-image">📡</div>
+                <div class="category">📡 半导体/蓝牙芯片</div>
+                <div class="content">
+                    <h3>蓝牙芯片市场行业研究报告 2026 <span class="badge badge-new">NEW</span></h3>
+                    <p>2026 年市场规模 52.3 亿美元、CAGR 14.15%、Qualcomm/Nordic 领跑、LE Audio/Auracast 技术爆发，深度分析蓝牙芯片产业格局</p>
+                    <div class="tags">
+                        <span class="tag">蓝牙</span>
+                        <span class="tag">LE Audio</span>
+                        <span class="tag">IoT</span>
+                        <span class="tag">高通</span>
+                    </div>
+                    <div class="meta">
+                        <span class="date">📅 2026-03-27</span>
+                        <div class="stats">
+                            <span class="stat">👁️ 最新发布</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="reports/bluetooth-chip-market-2026.html" class="btn">📖 阅读全文</a>
+            </div>
+
+            <!-- 报告卡片 1 - Camera 芯片 CIS -->
+            <div class="report-card featured" data-category="半导体">
+                <div class="card-image">📷</div>
+                <div class="category">📷 半导体/图像传感器</div>
+                <div class="content">
+                    <h3>Camera 芯片 (CIS) 行业分析报告 2026 <span class="badge badge-new">NEW</span></h3>
+                    <p>索尼 50% 份额领跑、豪威汽车 CIS 33% 全球第一、200MP 旗舰普及，深度分析 CIS 产业格局...</p>
+                    <div class="tags">
+                        <span class="tag">CIS</span>
+                        <span class="tag">索尼</span>
+                        <span class="tag">豪威科技</span>
+                    </div>
+                    <div class="meta">
+                        <span class="date">📅 2026-03-26</span>
+                        <div class="stats">
+                            <span class="stat">👁️ 最新发布</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="reports/Camera%20芯片 (CIS)%20行业分析报告%202026.html" class="btn">📖 阅读全文</a>
+            </div>
+
+            <!-- 报告卡片 2 - 指纹芯片 -->
+            <div class="report-card featured" data-category="半导体">
+                <div class="card-image">👆</div>
+                <div class="category">👆 半导体/生物识别</div>
+                <div class="content">
+                    <h3>指纹芯片行业分析报告 2026 <span class="badge badge-new">NEW</span></h3>
+                    <p>汇顶科技 40% 份额领跑、高通超声波旗舰渗透率 12%、市场规模 85-95 亿美元，深度分析指纹芯片产业格局...</p>
+                    <div class="tags">
+                        <span class="tag">指纹识别</span>
+                        <span class="tag">汇顶科技</span>
+                        <span class="tag">超声波</span>
+                    </div>
+                    <div class="meta">
+                        <span class="date">📅 2026-03-26</span>
+                        <div class="stats">
+                            <span class="stat">👁️ 最新发布</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="reports/指纹芯片行业分析报告%202026.html" class="btn">📖 阅读全文</a>
+            </div>
+
+            <!-- 报告卡片 3 - 显卡 GPU -->
+            <div class="report-card featured" data-category="半导体">
+                <div class="card-image">🎮</div>
+                <div class="category">🎮 半导体/显卡</div>
+                <div class="content">
+                    <h3>显卡 (GPU) 行业分析报告 2026 <span class="badge badge-new">NEW</span></h3>
+                    <p>英伟达垄断 94% 市场、AMD 份额跌至 5% 历史最低、RTX 50 系列溢价 40%，深度分析显卡市场格局与购买建议</p>
+                    <div class="tags">
+                        <span class="tag">GPU</span>
+                        <span class="tag">英伟达</span>
+                        <span class="tag">AMD</span>
+                    </div>
+                    <div class="meta">
+                        <span class="date">📅 2026-03-26</span>
+                        <div class="stats">
+                            <span class="stat">👁️ 最新</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="reports/显卡 (GPU)%20行业分析报告%202026.html" class="btn">📖 阅读全文</a>
+            </div>
+
+            <!-- 报告卡片 2 - 半导体 -->
+            <div class="report-card featured" data-category="半导体">
+                <div class="card-image">🔌</div>
+                <div class="category">🔌 半导体/芯片</div>
+                <div class="content">
+                    <h3>半导体行业分析报告 2026 <span class="badge badge-new">NEW</span></h3>
+                    <p>全球市场规模突破 1 万亿美元、AI 芯片占比 50%、台积电市占率 69.9%，深度分析半导体产业格局</p>
+                    <div class="tags">
+                        <span class="tag">半导体</span>
+                        <span class="tag">AI 芯片</span>
+                        <span class="tag">台积电</span>
+                    </div>
+                    <div class="meta">
+                        <span class="date">📅 2026-03-26</span>
+                        <div class="stats">
+                            <span class="stat">👁️ 最新</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="reports/半导体行业分析报告%202026.html" class="btn">📖 阅读全文</a>
+            </div>
+
+                        <!-- 报告卡片 5 - 笔记本电脑 -->
+            <div class="report-card featured" data-category="科技">
+                <div class="card-image">💻</div>
+                <div class="category">💻 科技/PC</div>
+                <div class="content">
+                    <h3>笔记本电脑行业分析报告 2026 <span class="badge badge-new">NEW</span></h3>
+                    <p>出货量 -10.4%、均价 +17-40%、AI PC 渗透延迟，深度分析 PC 产业格局与购买建议...</p>
+                    <div class="tags">
+                        <span class="tag">笔记本</span>
+                        <span class="tag">联想</span>
+                        <span class="tag">AI PC</span>
+                    </div>
+                    <div class="meta">
+                        <span class="date">📅 2026-03-26</span>
+                        <div class="stats">
+                            <span class="stat">👁️ 最新发布</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="reports/笔记本电脑行业分析报告%202026.html" class="btn">📖 阅读全文</a>
+            </div>
+
+            <!-- 报告卡片 6 - AI 大模型 -->
+            <div class="report-card featured" data-category="人工智能">
+                <div class="card-image">🤖</div>
+                <div class="category">🤖 人工智能/大模型</div>
+                <div class="content">
+                    <h3>AI 大模型行业分析报告 2026 <span class="badge badge-new">NEW</span></h3>
+                    <p>全球$77-150 亿市场、中国 Token 份额 30%、Claude Code 6 个月$1B run rate，深度分析 LLM 产业格局...</p>
+                    <div class="tags">
+                        <span class="tag">LLM</span>
+                        <span class="tag">OpenAI</span>
+                        <span class="tag">月之暗面</span>
+                    </div>
+                    <div class="meta">
+                        <span class="date">📅 2026-03-26</span>
+                        <div class="stats">
+                            <span class="stat">👁️ 最新发布</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="reports/AI%20大模型行业分析报告%202026.html" class="btn">📖 阅读全文</a>
+            </div>
+
+            <!-- 报告卡片 7 - 全球经济 -->
+            <div class="report-card featured" data-category="全球经济">
+                <div class="card-image">🌍</div>
+                <div class="category">🌍 全球经济/行业分析</div>
+                <div class="content">
+                    <h3>全球主流行业经济情况报告 2026 <span class="badge badge-new">NEW</span></h3>
+                    <p>全球 GDP 2.8-3.3% 增速、AI 行业 50-60% 领跑、12 个主流行业深度对比，全景扫描全球经济...</p>
+                    <div class="tags">
+                        <span class="tag">全球经济</span>
+                        <span class="tag">GDP</span>
+                        <span class="tag">行业对比</span>
+                    </div>
+                    <div class="meta">
+                        <span class="date">📅 2026-03-26</span>
+                        <div class="stats">
+                            <span class="stat">👁️ 最新发布</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="reports/全球主流行业经济情况报告%202026.html" class="btn">📖 阅读全文</a>
+            </div>
+
+            <!-- 报告卡片 8 - 可再生能源 -->
+            <div class="report-card featured" data-category="能源">
+                <div class="card-image">⚡</div>
+                <div class="category">⚡ 能源/可再生能源</div>
+                <div class="content">
+                    <h3>可再生能源行业分析报告 2026 <span class="badge badge-new">NEW</span></h3>
+                    <p>储能 +56.7%、AI 用电 80GW→150GW、中国风光 18.4 亿千瓦，深度分析能源转型与投资机遇...</p>
+                    <div class="tags">
+                        <span class="tag">太阳能</span>
+                        <span class="tag">风能</span>
+                        <span class="tag">储能</span>
+                    </div>
+                    <div class="meta">
+                        <span class="date">📅 2026-03-26</span>
+                        <div class="stats">
+                            <span class="stat">👁️ 最新发布</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="reports/可再生能源行业分析报告%202026.html" class="btn">📖 阅读全文</a>
+            </div>
+
+            <!-- 报告卡片 9 - AI 玩具 -->
+            <div class="report-card featured" data-category="消费">
+                <div class="card-image">🧸</div>
+                <div class="category">🧸 消费/AI 玩具</div>
+                <div class="content">
+                    <h3>AI 玩具行业分析报告 2026 <span class="badge badge-new">NEW</span></h3>
+                    <p>中国 290 亿市场、线上 +394.9%、2030 年破千亿，深度分析智能玩具与陪伴机器人产业...</p>
+                    <div class="tags">
+                        <span class="tag">AI 玩具</span>
+                        <span class="tag">陪伴机器人</span>
+                        <span class="tag">美泰</span>
+                    </div>
+                    <div class="meta">
+                        <span class="date">📅 2026-03-26</span>
+                        <div class="stats">
+                            <span class="stat">👁️ 最新发布</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="reports/AI%20玩具行业分析报告%202026.html" class="btn">📖 阅读全文</a>
+            </div>
+
+            <!-- 报告卡片 10 - AI 教育 -->
+            <div class="report-card featured" data-category="教育">
+                <div class="card-image">📚</div>
+                <div class="category">📚 教育/EdTech</div>
+                <div class="content">
+                    <h3>AI 教育行业分析报告 2026 <span class="badge badge-new">NEW</span></h3>
+                    <p>全球$95.8 亿市场、学生 AI 使用率 92%、学习效果 +54%，深度分析 AI+ 教育融合与投资机遇...</p>
+                    <div class="tags">
+                        <span class="tag">AI 教育</span>
+                        <span class="tag">EdTech</span>
+                        <span class="tag">个性化学习</span>
+                    </div>
+                    <div class="meta">
+                        <span class="date">📅 2026-03-26</span>
+                        <div class="stats">
+                            <span class="stat">👁️ 最新发布</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="reports/AI%20教育行业分析报告%202026.html" class="btn">📖 阅读全文</a>
+            </div>
+
+            <!-- 报告卡片 5 - 笔记本电脑 -->
+            <div class="report-card featured" data-category="科技">
+                <div class="card-image">💻</div>
+                <div class="category">💻 科技/PC</div>
+                <div class="content">
+                    <h3>笔记本电脑行业分析报告 2026 <span class="badge badge-new">NEW</span></h3>
+                    <p>出货量 -10.4%、均价 +17-40%、AI PC 渗透延迟，深度分析 PC 产业格局与购买建议...</p>
+                    <div class="tags">
+                        <span class="tag">笔记本</span>
+                        <span class="tag">联想</span>
+                        <span class="tag">AI PC</span>
+                    
+
+            <!-- 报告卡片 11 - LED 屏幕 -->
+            <div class="report-card featured" data-category="科技">
+                <div class="card-image">📺</div>
+                <div class="category">📺 科技/显示</div>
+                <div class="content">
+                    <h3>LED 屏幕行业分析报告 2026 <span class="badge badge-new">NEW</span></h3>
+                    <p>全球$121.76 亿市场、Mini LED +20%、Micro LED +100%、海信垄断 90%，深度分析显示技术与商业应用...</p>
+                    <div class="tags">
+                        <span class="tag">Mini LED</span>
+                        <span class="tag">Micro LED</span>
+                        <span class="tag">小间距 LED</span>
+                    </div>
+                    <div class="meta">
+                        <span class="date">📅 2026-03-26</span>
+                        <div class="stats">
+                            <span class="stat">👁️ 最新发布</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="reports/LED%20屏幕行业分析报告%202026.html" class="btn">📖 阅读全文</a>
+            </div>
+</div>
+                    <div class="meta">
+                        <span class="date">📅 2026-03-26</span>
+                        <div class="stats">
+                            <span class="stat">👁️ 最新发布</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="reports/笔记本电脑行业分析报告%202026.html" class="btn">📖 阅读全文</a>
+            </div>
+
+            <!-- 报告卡片 6 - AI 大模型 -->
+            <div class="report-card featured" data-category="人工智能">
+                <div class="card-image">🤖</div>
+                <div class="category">🤖 人工智能/大模型</div>
+                <div class="content">
+                    <h3>AI 大模型行业分析报告 2026 <span class="badge badge-new">NEW</span></h3>
+                    <p>全球$77-150 亿市场、中国 Token 份额 30%、Claude Code 6 个月$1B run rate，深度分析 LLM 产业格局...</p>
+                    <div class="tags">
+                        <span class="tag">LLM</span>
+                        <span class="tag">OpenAI</span>
+                        <span class="tag">月之暗面</span>
+                    </div>
+                    <div class="meta">
+                        <span class="date">📅 2026-03-26</span>
+                        <div class="stats">
+                            <span class="stat">👁️ 最新发布</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="reports/AI%20大模型行业分析报告%202026.html" class="btn">📖 阅读全文</a>
+            </div>
+
+            <!-- 报告卡片 7 - 全球经济 -->
+            <div class="report-card featured" data-category="全球经济">
+                <div class="card-image">🌍</div>
+                <div class="category">🌍 全球经济/行业分析</div>
+                <div class="content">
+                    <h3>全球主流行业经济情况报告 2026 <span class="badge badge-new">NEW</span></h3>
+                    <p>全球 GDP 2.8-3.3% 增速、AI 行业 50-60% 领跑、12 个主流行业深度对比，全景扫描全球经济...</p>
+                    <div class="tags">
+                        <span class="tag">全球经济</span>
+                        <span class="tag">GDP</span>
+                        <span class="tag">行业对比</span>
+                    </div>
+                    <div class="meta">
+                        <span class="date">📅 2026-03-26</span>
+                        <div class="stats">
+                            <span class="stat">👁️ 最新发布</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="reports/全球主流行业经济情况报告%202026.html" class="btn">📖 阅读全文</a>
+            </div>
+
+            <!-- 报告卡片 8 - 可再生能源 -->
+            <div class="report-card featured" data-category="能源">
+                <div class="card-image">⚡</div>
+                <div class="category">⚡ 能源/可再生能源</div>
+                <div class="content">
+                    <h3>可再生能源行业分析报告 2026 <span class="badge badge-new">NEW</span></h3>
+                    <p>储能 +56.7%、AI 用电 80GW→150GW、中国风光 18.4 亿千瓦，深度分析能源转型与投资机遇...</p>
+                    <div class="tags">
+                        <span class="tag">太阳能</span>
+                        <span class="tag">风能</span>
+                        <span class="tag">储能</span>
+                    </div>
+                    <div class="meta">
+                        <span class="date">📅 2026-03-26</span>
+                        <div class="stats">
+                            <span class="stat">👁️ 最新发布</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="reports/可再生能源行业分析报告%202026.html" class="btn">📖 阅读全文</a>
+            </div>
+
+            <!-- 报告卡片 9 - AI 玩具 -->
+            <div class="report-card featured" data-category="消费">
+                <div class="card-image">🧸</div>
+                <div class="category">🧸 消费/AI 玩具</div>
+                <div class="content">
+                    <h3>AI 玩具行业分析报告 2026 <span class="badge badge-new">NEW</span></h3>
+                    <p>中国 290 亿市场、线上 +394.9%、2030 年破千亿，深度分析智能玩具与陪伴机器人产业...</p>
+                    <div class="tags">
+                        <span class="tag">AI 玩具</span>
+                        <span class="tag">陪伴机器人</span>
+                        <span class="tag">美泰</span>
+                    </div>
+                    <div class="meta">
+                        <span class="date">📅 2026-03-26</span>
+                        <div class="stats">
+                            <span class="stat">👁️ 最新发布</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="reports/AI%20玩具行业分析报告%202026.html" class="btn">📖 阅读全文</a>
+            </div>
+
+            <!-- 报告卡片 10 - AI 教育 -->
+            <div class="report-card featured" data-category="教育">
+                <div class="card-image">📚</div>
+                <div class="category">📚 教育/EdTech</div>
+                <div class="content">
+                    <h3>AI 教育行业分析报告 2026 <span class="badge badge-new">NEW</span></h3>
+                    <p>全球$95.8 亿市场、学生 AI 使用率 92%、学习效果 +54%，深度分析 AI+ 教育融合与投资机遇...</p>
+                    <div class="tags">
+                        <span class="tag">AI 教育</span>
+                        <span class="tag">EdTech</span>
+                        <span class="tag">个性化学习</span>
+                    </div>
+                    <div class="meta">
+                        <span class="date">📅 2026-03-26</span>
+                        <div class="stats">
+                            <span class="stat">👁️ 最新发布</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="reports/AI%20教育行业分析报告%202026.html" class="btn">📖 阅读全文</a>
+            </div>
+
+<!-- 报告卡片 3 - 新能源 -->
+            <div class="report-card" data-category="新能源">
+                <div class="card-image">🚗</div>
+                <div class="category">🚗 汽车/新能源</div>
+                <div class="content">
+                    <h3>2026 年新能源汽车行业报告 <span class="badge badge-new">NEW</span></h3>
+                    <p>比亚迪销量 +314%、特斯拉 -20%、蔚小理持续高增长，深度分析 2026 年新能源汽车市场格局</p>
+                    <div class="tags">
+                        <span class="tag">新能源汽车</span>
+                        <span class="tag">比亚迪</span>
+                        <span class="tag">特斯拉</span>
+                    </div>
+                    <div class="meta">
+                        <span class="date">📅 2026-03-07</span>
+                        <div class="stats">
+                            <span class="stat">👁️ 2,341</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="reports/2026%20年新能源汽车行业报告.html" class="btn">📖 阅读全文</a>
+            </div>
+
+            <!-- 报告卡片 4 - 教育 -->
+            <div class="report-card" data-category="教育">
+                <div class="card-image">📚</div>
+                <div class="category">📚 教育/AI 教育</div>
+                <div class="content">
+                    <h3>2026 年教育行业调研报告 <span class="badge badge-new">NEW</span></h3>
+                    <p>AI 教育渗透率 60%、学习机销量 +60%、好未来 +45%，深度分析 2026 年教育行业市场格局</p>
+                    <div class="tags">
+                        <span class="tag">AI 教育</span>
+                        <span class="tag">学习机</span>
+                        <span class="tag">好未来</span>
+                    </div>
+                    <div class="meta">
+                        <span class="date">📅 2026-03-07</span>
+                        <div class="stats">
+                            <span class="stat">👁️ 1,892</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="reports/2026%20年教育行业调研报告.html" class="btn">📖 阅读全文</a>
+            </div>
+
+            <!-- 报告卡片 5 - AI 大模型 -->
+            <div class="report-card" data-category="人工智能">
+                <div class="card-image">🤖</div>
+                <div class="category">🤖 人工智能</div>
+                <div class="content">
+                    <h3>2026 年中国 AI 大模型厂商行业报告 <span class="badge badge-featured">精选</span></h3>
+                    <p>深度分析阿里巴巴、百度、月之暗面、深度求索等主流厂商，包含市场份额、技术参数、投资建议</p>
+                    <div class="tags">
+                        <span class="tag">大模型</span>
+                        <span class="tag">AI</span>
+                        <span class="tag">阿里巴巴</span>
+                    </div>
+                    <div class="meta">
+                        <span class="date">📅 2026-03-07</span>
+                        <div class="stats">
+                            <span class="stat">👁️ 3,256</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="reports/2026%20年中国%20AI%20大模型厂商行业报告.html" class="btn">📖 阅读全文</a>
+            </div>
+
+            <!-- 报告卡片 6 - 机器人 -->
+            <div class="report-card" data-category="科技">
+                <div class="card-image">🦾</div>
+                <div class="category">🤖 机器人</div>
+                <div class="content">
+                    <h3>2026 年全球机器人行业分析报告</h3>
+                    <p>人形机器人、工业机器人、服务机器人全产业链分析，Tesla Optimus、Boston Dynamics 等厂商对比</p>
+                    <div class="tags">
+                        <span class="tag">人形机器人</span>
+                        <span class="tag">Tesla</span>
+                        <span class="tag">工业自动化</span>
+                    </div>
+                    <div class="meta">
+                        <span class="date">📅 2026-03-07</span>
+                        <div class="stats">
+                            <span class="stat">👁️ 1,892</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="reports/2026%20年全球机器人行业分析报告.html" class="btn">📖 阅读全文</a>
+            </div>
+
+            <!-- 报告卡片 7 - 房地产 -->
+            <div class="report-card" data-category="金融">
+                <div class="card-image">🏠</div>
+                <div class="category">🏠 房地产</div>
+                <div class="content">
+                    <h3>上海房价分析与建议报告 <span class="badge badge-hot">🔥 热门</span></h3>
+                    <p>基于 2021-2026 年市场数据，分析上海房价走势、出售损益、未来预测，提供专业买卖建议</p>
+                    <div class="tags">
+                        <span class="tag">上海</span>
+                        <span class="tag">房价</span>
+                        <span class="tag">投资</span>
+                    </div>
+                    <div class="meta">
+                        <span class="date">📅 2026-03-07</span>
+                        <div class="stats">
+                            <span class="stat">👁️ 4,341</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="reports/上海房价分析报告.html" class="btn">📖 阅读全文</a>
+            </div>
+
+            <!-- 报告卡片 8 - 黄金 -->
+            <div class="report-card" data-category="金融">
+                <div class="card-image">💰</div>
+                <div class="category">💰 金融/贵金属</div>
+                <div class="content">
+                    <h3>2026 年黄金市场投资分析报告</h3>
+                    <p>国际金价走势、国内金价数据、机构预测、投资建议，基于上海黄金交易所权威数据</p>
+                    <div class="tags">
+                        <span class="tag">黄金</span>
+                        <span class="tag">投资</span>
+                        <span class="tag">贵金属</span>
+                    </div>
+                    <div class="meta">
+                        <span class="date">📅 2026-03-07</span>
+                        <div class="stats">
+                            <span class="stat">👁️ 2,567</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="reports/黄金首饰出售分析报告.html" class="btn">📖 阅读全文</a>
+            </div>
+
+            <!-- 报告卡片 9 - 智能手机 -->
+            <div class="report-card" data-category="科技">
+                <div class="card-image">📱</div>
+                <div class="category">📱 科技/手机</div>
+                <div class="content">
+                    <h3>2026 年智能手机市场趋势报告</h3>
+                    <p>Apple、Samsung、华为、小米等厂商竞争格局，5G、折叠屏、AI 手机等技术趋势分析</p>
+                    <div class="tags">
+                        <span class="tag">智能手机</span>
+                        <span class="tag">5G</span>
+                        <span class="tag">折叠屏</span>
+                    </div>
+                    <div class="meta">
+                        <span class="date">📅 2026-03-05</span>
+                        <div class="stats">
+                            <span class="stat">👁️ 5,124</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="reports/2026%20年智能手机市场趋势报告.html" class="btn">📖 阅读全文</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 行业分类 -->
+    <div class="categories" id="categories">
+        <h2>📂 行业分类</h2>
+        <div class="category-tags">
+            <a href="#" class="category-tag" onclick="filterReports('半导体')">🔌 半导体</a>
+            <a href="#" class="category-tag" onclick="filterReports('人工智能')">🤖 人工智能</a>
+            <a href="#" class="category-tag" onclick="filterReports('科技')">📱 科技</a>
+            <a href="#" class="category-tag" onclick="filterReports('新能源')">🚗 新能源</a>
+            <a href="#" class="category-tag" onclick="filterReports('金融')">💰 金融</a>
+            <a href="#" class="category-tag" onclick="filterReports('房地产')">🏠 房地产</a>
+            <a href="#" class="category-tag" onclick="filterReports('医疗')">💊 医疗</a>
+            <a href="#" class="category-tag" onclick="filterReports('消费')">🛒 消费</a>
+            <a href="#" class="category-tag" onclick="filterReports('教育')">🎓 教育</a>
+            <a href="#" class="category-tag" onclick="filterReports('机器人')">🦾 机器人</a>
+            <a href="#" class="category-tag" onclick="filterReports('能源')">⚡ 能源</a>
+            <a href="#" class="category-tag" onclick="filterReports('媒体')">📺 媒体</a>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <div class="footer" id="about">
+        <h3>📊 行业研究报告中心</h3>
+        <p>专业 · 深度 · 客观</p>
+        <div class="footer-links">
+            <a href="#">关于我们</a>
+            <a href="#">联系方式</a>
+            <a href="#">隐私政策</a>
+            <a href="#">使用条款</a>
+            <a href="#">RSS 订阅</a>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 行业研究报告中心 | All Rights Reserved</p>
+            <p style="margin-top: 10px; font-size: 12px; color: rgba(255,255,255,0.5);">
+                本报告由 AI 助手生成，数据来源于公开渠道，仅供参考，不构成投资建议
             </p>
-        </footer>
+        </div>
     </div>
 
     <script>
-        // Smooth scrolling for navigation
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+        // 搜索功能
+        function searchReports() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.report-card');
+            
+            cards.forEach(card => {
+                const title = card.querySelector('h3').textContent.toLowerCase();
+                const desc = card.querySelector('p').textContent.toLowerCase();
+                const tags = card.querySelector('.tags').textContent.toLowerCase();
+                
+                if (title.includes(query) || desc.includes(query) || tags.includes(query)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // 筛选功能
+        function filterReports(category) {
+            const cards = document.querySelectorAll('.report-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+            
+            // 更新按钮状态
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent.includes(category) || 
+                    (category === 'all' && btn.textContent === '全部')) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // 筛选报告
+            cards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // 搜索框回车搜索
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchReports();
+            }
+        });
+
+        // 视图切换
+        document.querySelectorAll('.view-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                const grid = document.getElementById('reportsGrid');
+                if (this.textContent === '☰') {
+                    grid.style.gridTemplateColumns = '1fr';
+                } else {
+                    grid.style.gridTemplateColumns = '';
                 }
             });
         });
 
-        // Add scroll progress indicator
-        window.addEventListener('scroll', () => {
-            const scrolled = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
-            // Could add a progress bar here if desired
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // 卡片点击效果
+        document.querySelectorAll('.report-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                if (!e.target.classList.contains('btn') && !e.target.closest('.btn')) {
+                    const btn = this.querySelector('.btn');
+                    if (btn && btn.getAttribute('href') !== '#') {
+                        window.location.href = btn.getAttribute('href');
+                    }
+                }
+            });
         });
     </script>
 </body>

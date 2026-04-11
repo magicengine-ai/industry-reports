@@ -1,164 +1,140 @@
-# Isaac 机器人仿真平台研究报告
+# 📊 行业研究报告中心
 
-## 📊 NVIDIA Isaac Gym / Isaac Sim / Isaac Lab 全面分析
-
-**报告日期：** 2026 年 4 月 11 日  
-**版本：** 1.0  
-**研究类型：** 技术调研与竞品分析
+专业的行业研究报告展示平台，提供深度分析和数据驱动的决策支持。
 
 ---
 
-## 📁 报告文件
+## 🌐 在线访问
 
-| 文件 | 说明 | 链接 |
-|------|------|------|
-| 📄 **完整报告** | HTML 格式研究报告 | [查看报告](./index.html) |
-| 📋 **执行摘要** | 5 分钟速读版 | [查看摘要](./isaac-executive-summary.md) |
-| 📽️ **PPT 大纲** | 30 页幻灯片结构 | [查看大纲](./isaac-ppt-outline.md) |
-| 📚 **参考资料** | 50+ 文献汇总 | [查看资料](./isaac-references.md) |
-| 🔧 **技术对比** | 快速参考表 | [查看对比](../../isaac-comparison-quickref.md) |
-| 💻 **代码示例** | 可运行 Demo | [查看代码](../../isaac_code_examples/) |
-| 🌐 **竞品分析** | 市场情报 | [查看分析](../../isaac-competitive-analysis.md) |
+**网站地址：** https://magicengine-ai.github.io/industry-reports/
 
 ---
 
-## 🎯 核心发现
+## 📁 报告目录
 
-### 技术演进路线
+| 报告名称 | 行业 | 发布日期 |
+|---------|------|---------|
+| [全球摩托车产业深度研究报告 2026](reports/全球摩托车产业深度研究报告%202026.html) | 汽车/摩托车产业 | 2026-04-03 |
+| [AI 智能体每周资讯报告 2026-W14](reports/ai-agent-weekly-news-2026-w14.html) | 人工智能/行业资讯 | 2026-04-02 |
+| [Claude Code 泄露源码架构分析报告](reports/claude-code-leaked-architecture-analysis.html) | 技术架构/AI 编程 | 2026-04-02 |
+| [DeerFlow 2.0 架构分析报告](reports/deerflow-2.0-architecture-analysis.html) | 技术架构/开源框架 | 2026-04-02 |
+| [中国电力结构分析报告 2025](reports/中国电力结构分析报告%202025.html) | 能源/电力 | 2026-04-01 |
+| [半导体生产行业研究报告 2026](reports/semiconductor-manufacturing-2026.html) | 半导体/生产制造 | 2026-03-27 |
+| [蓝牙芯片市场行业研究报告 2026](reports/bluetooth-chip-market-2026.html) | 半导体/蓝牙芯片 | 2026-03-27 |
+| [LED 屏幕行业分析报告 2026](reports/LED%20 屏幕行业分析报告%202026.html) | 科技/显示 | 2026-03-26 |
+| [AI 教育行业分析报告 2026](reports/AI%20 教育行业分析报告%202026.html) | 教育/EdTech | 2026-03-26 |
+| [AI 玩具行业分析报告 2026](reports/AI%20 玩具行业分析报告%202026.html) | 消费/AI 玩具 | 2026-03-26 |
+| [可再生能源行业分析报告 2026](reports/可再生能源行业分析报告%202026.html) | 能源/可再生能源 | 2026-03-26 |
+| [全球主流行业经济情况报告 2026](reports/全球主流行业经济情况报告%202026.html) | 全球经济/行业分析 | 2026-03-26 |
+| [AI 大模型行业分析报告 2026](reports/AI%20 大模型行业分析报告%202026.html) | 人工智能/大模型 | 2026-03-26 |
+| [笔记本电脑行业分析报告 2026](reports/笔记本电脑行业分析报告%202026.html) | 科技/PC | 2026-03-26 |
+| [Camera 芯片 (CIS) 行业分析报告 2026](reports/Camera%20 芯片 (CIS)%20 行业分析报告%202026.html) | 半导体/图像传感器 | 2026-03-26 |
+| [指纹芯片行业分析报告 2026](reports/指纹芯片行业分析报告%202026.html) | 半导体/生物识别 | 2026-03-26 |
+| [显卡 (GPU) 行业分析报告 2026](reports/显卡 (GPU)%20 行业分析报告%202026.html) | 半导体/显卡 | 2026-03-26 |
+| [半导体行业分析报告 2026](reports/半导体行业分析报告%202026.html) | 半导体/芯片 | 2026-03-26 |
+| [2026 年教育行业调研报告](reports/2026%20 年教育行业调研报告.html) | 教育/AI 教育 | 2026-03-07 |
+| [2026 年新能源汽车行业报告](reports/2026%20 年新能源汽车行业报告.html) | 汽车/新能源 | 2026-03-07 |
+| [2026 年智能手机市场趋势报告](reports/2026%20 年智能手机市场趋势报告.html) | 科技/手机 | 2026-03-07 |
+| [2026 年中国 AI 大模型厂商行业报告](reports/2026%20 年中国%20AI%20 大模型厂商行业报告.html) | 人工智能 | 2026-03-07 |
+| [2026 年全球机器人行业分析报告](reports/2026%20 年全球机器人行业分析报告.html) | 机器人 | 2026-03-07 |
+| [OpenClaw 时代 - 改变各行各业](reports/OpenClaw%20 时代%20-%20 改变各行各业.html) | 演示文稿 | 2026-03-07 |
+| [上海房价分析与建议报告](reports/上海房价分析报告.html) | 房地产 | 2026-03-07 |
+| [黄金首饰出售分析报告](reports/黄金首饰出售分析报告.html) | 金融 | 2026-03-07 |
+
+---
+
+## 📂 文件结构
+
 ```
-Isaac Gym (2021) → Isaac Sim (2022-2024) → Isaac Lab (2024-)
-     ↓                    ↓                      ↓
- RL 专用           通用仿真平台            RL 框架统一
- PhysX GPU        PhysX 5 + OV           PhysX 5 + Gymnasium
+/
+├── index.html              # 网站首页
+├── README.md               # 本说明文档
+└── reports/                # 报告文件目录
+    ├── bluetooth-chip-market-2026.html
+    ├── 2026 年教育行业调研报告.html
+    ├── 2026 年新能源汽车行业报告.html
+    ├── 2026 年智能手机市场趋势报告.html
+    ├── 2026 年中国 AI 大模型厂商行业报告.html
+    ├── 2026 年全球机器人行业分析报告.html
+    ├── OpenClaw 时代 - 改变各行各业.html
+    ├── 上海房价分析报告.html
+    └── 黄金首饰出售分析报告.html
 ```
 
-### 关键建议
-
-| 用户类型 | 推荐平台 | 理由 |
-|---------|---------|------|
-| 🎓 研究机构 | **Isaac Lab 3.0** | 模块化架构，学术友好 |
-| 🏭 工业企业 | **Isaac Sim Enterprise** | 生产级支持，Omniverse 集成 |
-| 🚀 初创公司 | **Isaac Lab (免费)** | 零成本起步，关注 GR00T |
-| 👨‍💻 个人学习 | **Isaac Lab + 官方教程** | 文档完善，社区活跃 |
-
 ---
 
-## 📊 性能对比
+## 🚀 GitHub Pages 部署
 
-| 任务 | 环境数 | Isaac Gym | Isaac Lab | MuJoCo | PyBullet |
-|-----|-------|-----------|-----------|--------|----------|
-| Humanoid RL | 1,024 | 1.2M FPS | 1.5M FPS | 8K FPS | 15K FPS |
-| Humanoid RL | 4,096 | 3.8M FPS | 4.2M FPS | - | - |
-| Shadow Hand | 8,192 | 5.1M FPS | 6.3M FPS | - | - |
+### 1. 创建仓库
+- 仓库名：industry-reports
+- 可见性：Public
 
-*GPU 并行仿真比 CPU 方案快 **100-1000 倍***
-
----
-
-## 🚀 快速开始
-
-### 1. 查看完整报告
+### 2. 推送文件
 ```bash
-# 在浏览器中打开 HTML 报告
-start reports\isaac-platform-research\index.html
+git init
+git add .
+git commit -m "Initial commit"
+git branch -M main
+git remote add origin git@github.com:magicengine-ai/industry-reports.git
+git push -u origin main
 ```
 
-### 2. 安装 Isaac Lab
+### 3. 启用 Pages
+- Settings → Pages
+- Branch: main
+- Save
+
+### 4. 访问网站
+```
+https://magicengine-ai.github.io/industry-reports/
+```
+
+---
+
+## 📝 更新报告
+
+生成新报告后：
+
 ```bash
-# 克隆仓库
-git clone https://github.com/isaac-sim/IsaacLab.git
-cd IsaacLab
+# 复制新报告到 reports 目录
+copy 新报告.html reports/
 
-# 安装依赖
-pip install -e .
+# 更新 README.md（添加报告链接）
+# 编辑 README.md，在表格中添加新报告
 
-# 运行示例
-python source/standalone/environments/rl_games/humanoid.py
-```
+# 更新 index.html（添加报告卡片）
+# 编辑 index.html
 
-### 3. 参考代码示例
-```bash
-# 查看代码示例目录
-cd ../../isaac_code_examples
-```
-
----
-
-## 📖 报告目录
-
-1. [执行摘要](#-核心发现) - 核心发现与关键建议
-2. [引言](#-报告目录) - 研究背景与目的
-3. [产品概述](#-报告目录) - 三大平台详细介绍
-4. [技术架构对比](#-报告目录) - 架构/功能/性能对比
-5. [安装与部署](#-快速开始) - 系统要求与安装指南
-6. [应用案例](#-报告目录) - 学术/工业/开源项目
-7. [竞品分析](#-报告目录) - 7 大平台对比
-8. [成本与许可](#-报告目录) - 许可证与成本分析
-9. [未来趋势](#-报告目录) - 技术发展与市场预测
-10. [选型建议](#-核心发现) - 不同场景推荐
-11. [附录](#-报告目录) - 代码/参考文献/术语表
-
----
-
-## 🔗 相关资源
-
-### 官方资源
-- [Isaac Lab 文档](https://isaac-sim.github.io/IsaacLab/)
-- [Isaac Sim 文档](https://docs.isaacsim.omniverse.nvidia.com/)
-- [NVIDIA 开发者论坛](https://forums.developer.nvidia.com/)
-- [GitHub 仓库](https://github.com/isaac-sim)
-
-### 学习路径
-- **第 1 周** - 阅读官方快速入门
-- **第 2 周** - 完成官方 RL 教程
-- **第 3-4 周** - 复现 legged_gym 案例
-- **第 5-8 周** - 开发自定义环境
-
----
-
-## 📈 市场预测
-
-| 年份 | 市场规模 | 关键驱动 |
-|-----|---------|---------|
-| 2026 | $5 亿 | 人形机器人热潮 |
-| 2027 | $12 亿 | 工业 4.0 深化 |
-| 2028 | $25 亿 | 通用机器人突破 |
-| 2030 | $80 亿 | Physical AI 普及 |
-
-*数据来源：TrendForce、NVIDIA GTC 2026*
-
----
-
-## 💡 使用建议
-
-### 推荐阅读顺序
-1. **首次阅读** → 先看 [执行摘要](./isaac-executive-summary.md)（5 分钟）
-2. **深度研究** → 再读 [完整报告](./index.html)（30-60 分钟）
-3. **准备汇报** → 使用 [PPT 大纲](./isaac-ppt-outline.md) 制作幻灯片
-4. **动手实践** → 参考 [代码示例](../../isaac_code_examples/) 运行 Demo
-
-### 引用本报告
-```bibtex
-@report{isaac-research-2026,
-  title = {Isaac Gym / Isaac Sim / Isaac Lab 研究报告},
-  author = {AI Research Agent},
-  date = {2026-04-11},
-  version = {1.0},
-  url = {https://github.com/magicengine-ai/industry-reports/tree/main/reports/isaac-platform-research}
-}
+# 推送更新
+git add .
+git commit -m "Add: 报告名称"
+git push
 ```
 
 ---
 
-## 📞 反馈与支持
+## 📊 覆盖行业
 
-如有问题或建议，请：
-1. 查看 [参考资料](./isaac-references.md) 获取更多资源
-2. 访问 [NVIDIA 开发者论坛](https://forums.developer.nvidia.com/)
-3. 参与 [Isaac Lab GitHub 讨论](https://github.com/isaac-sim/IsaacLab/discussions)
+- 📚 教育/AI 教育
+- 🚗 汽车/新能源
+- 📱 科技/手机
+- 🤖 人工智能
+- 🤖 机器人
+- 🏠 房地产
+- 💰 金融
+- 💊 医疗
+- 🛒 消费
+- 🔌 半导体/芯片
 
 ---
 
-**最后更新：** 2026-04-11 23:50  
-**维护者：** AI Research Team  
-**许可证：** CC BY-NC-SA 4.0
+## ⚠️ 免责声明
+
+- 报告数据来源于公开渠道，仅供参考
+- 不构成投资建议，决策需谨慎
+- 报告由 AI 助手生成，数据可能随时更新
+
+---
+
+**最后更新：** 2026-04-03  
+**版本：** 1.8
