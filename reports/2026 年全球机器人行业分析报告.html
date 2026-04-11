@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 年全球机器人行业分析报告</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Microsoft YaHei", "SimHei", sans-serif;
+            line-height: 1.8;
+            color: #333;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 50px;
+            border-radius: 15px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+        }
+        .header {
+            text-align: center;
+            border-bottom: 4px solid #1e3c72;
+            padding-bottom: 30px;
+            margin-bottom: 40px;
+        }
+        .header h1 {
+            color: #1e3c72;
+            font-size: 34px;
+            margin-bottom: 15px;
+        }
+        .header .subtitle {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        .header .date {
+            color: #999;
+            font-size: 13px;
+        }
+        .section { margin-bottom: 45px; }
+        .section-title {
+            background: linear-gradient(90deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 15px 25px;
+            font-size: 20px;
+            font-weight: bold;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+        .executive-summary {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-left: 5px solid #1e3c72;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .executive-summary h2 {
+            color: #1e3c72;
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+            background: white;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 14px;
+            text-align: center;
+        }
+        th {
+            background: linear-gradient(180deg, #1e3c72, #2a5298);
+            color: white;
+            font-weight: bold;
+        }
+        tr:nth-child(even) { background: #f8f9fa; }
+        tr:hover { background: #e3f2fd; }
+        .rank-1 { background: linear-gradient(90deg, #ffd700, #fff) !important; font-weight: bold; }
+        .rank-2 { background: linear-gradient(90deg, #c0c0c0, #fff) !important; font-weight: bold; }
+        .rank-3 { background: linear-gradient(90deg, #cd7f32, #fff) !important; font-weight: bold; }
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .badge-red { background: #ffebee; color: #c62828; }
+        .badge-green { background: #e8f5e9; color: #2e7d32; }
+        .badge-blue { background: #e3f2fd; color: #1976d2; }
+        .badge-purple { background: #f3e5f5; color: #7b1fa2; }
+        .badge-orange { background: #fff3e0; color: #e65100; }
+        .company-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+        .company-card:hover {
+            border-color: #1e3c72;
+            box-shadow: 0 5px 20px rgba(30, 60, 114, 0.2);
+        }
+        .company-card h3 {
+            color: #1e3c72;
+            font-size: 18px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #1e3c72;
+            padding-bottom: 10px;
+        }
+        .company-card ul { list-style: none; padding-left: 0; }
+        .company-card li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+        .company-card li:before {
+            content: "✓";
+            color: #2e7d32;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 20px;
+            border-left: 4px solid #ffc107;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .warning {
+            background: #ffebee;
+            padding: 20px;
+            border-left: 4px solid #d32f2f;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .success {
+            background: #e8f5e9;
+            padding: 20px;
+            border-left: 4px solid #2e7d32;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .footer {
+            border-top: 3px solid #e0e0e0;
+            padding-top: 25px;
+            margin-top: 40px;
+            text-align: center;
+            color: #999;
+            font-size: 12px;
+        }
+        .toc {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .toc h3 { color: #1e3c72; margin-bottom: 15px; }
+        .toc ul { list-style: none; padding-left: 0; }
+        .toc li { margin-bottom: 8px; }
+        .toc a { color: #333; text-decoration: none; }
+        .toc a:hover { color: #1e3c72; }
+        .market-size {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .market-size h3 { font-size: 24px; margin-bottom: 20px; }
+        .market-size .number { font-size: 48px; font-weight: bold; margin: 15px 0; }
+        .chart-box {
+            background: #f8f9fa;
+            border: 2px dashed #1e3c72;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 2026 年全球机器人行业分析报告</h1>
+            <div class="subtitle">人形机器人 | 工业机器人 | 服务机器人 | 全产业链深度分析</div>
+            <div class="date">报告日期：2026 年 3 月 7 日 | 数据来源：公开资料、行业调研、第三方数据平台</div>
+        </div>
+
+        <div class="toc">
+            <h3>📑 报告目录</h3>
+            <ul>
+                <li><a href="#summary">一、执行摘要</a></li>
+                <li><a href="#market-overview">二、市场概况</a></li>
+                <li><a href="#humanoid">三、人形机器人市场</a></li>
+                <li><a href="#industrial">四、工业机器人市场</a></li>
+                <li><a href="#service">五、服务机器人市场</a></li>
+                <li><a href="#companies">六、主要厂商分析</a></li>
+                <li><a href="#technology">七、关键技术趋势</a></li>
+                <li><a href="#investment">八、投资建议</a></li>
+            </ul>
+        </div>
+
+        <div id="summary" class="executive-summary">
+            <h2>📌 一、执行摘要</h2>
+            <p><strong>核心发现：</strong></p>
+            <ul style="margin-top: 15px; margin-left: 20px;">
+                <li>2026 年全球机器人市场规模突破 6250 亿元，同比增长 35%</li>
+                <li>人形机器人进入商业化元年，预计 2026 年出货量 10 万台</li>
+                <li>Tesla Optimus、Boston Dynamics Atlas、Figure AI 领跑人形机器人赛道</li>
+                <li>中国工业机器人市场占全球 55%，国产替代加速</li>
+                <li>AI 大模型赋能，机器人智能化水平显著提升</li>
+                <li>预计 2027 年市场规模将达到 1 万亿元</li>
+            </ul>
+        </div>
+
+        <div id="market-overview" class="section">
+            <div class="section-title">📊 二、市场概况</div>
+            <div class="market-size">
+                <h3>2026 年全球机器人市场规模</h3>
+                <div class="number">6,250 亿元</div>
+                <p>同比增长 35% | 预计 2027 年突破 1 万亿元</p>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>细分市场</th>
+                        <th>2026 年规模</th>
+                        <th>同比增长</th>
+                        <th>占比</th>
+                        <th>发展阶段</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="rank-1">
+                        <td><strong>工业机器人</strong></td>
+                        <td><strong>3,500 亿元</strong></td>
+                        <td><strong>+25%</strong></td>
+                        <td><strong>56%</strong></td>
+                        <td><span class="badge badge-green">成熟期</span></td>
+                    </tr>
+                    <tr class="rank-2">
+                        <td><strong>人形机器人</strong></td>
+                        <td><strong>1,500 亿元</strong></td>
+                        <td><strong>+320%</strong></td>
+                        <td><strong>24%</strong></td>
+                        <td><span class="badge badge-red">爆发期</span></td>
+                    </tr>
+                    <tr>
+                        <td>服务机器人</td>
+                        <td>1,000 亿元</td>
+                        <td>+45%</td>
+                        <td>16%</td>
+                        <td><span class="badge badge-blue">成长期</span></td>
+                    </tr>
+                    <tr>
+                        <td>特种机器人</td>
+                        <td>250 亿元</td>
+                        <td>+30%</td>
+                        <td>4%</td>
+                        <td><span class="badge badge-purple">导入期</span></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="success">
+                <strong>📈 市场亮点：</strong>人形机器人成为最大增长点，2026 年出货量预计 10 万台，同比增长 320%。Tesla、Boston Dynamics、Figure AI 等厂商加速商业化落地。
+            </div>
+        </div>
+
+        <div id="humanoid" class="section">
+            <div class="section-title">🤖 三、人形机器人市场</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>厂商</th>
+                        <th>产品</th>
+                        <th>价格</th>
+                        <th>载重</th>
+                        <th>续航</th>
+                        <th>状态</th>
+                        <th>2026 目标</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="rank-1">
+                        <td><strong>Tesla</strong></td>
+                        <td><strong>Optimus Gen 3</strong></td>
+                        <td><strong>$20,000</strong></td>
+                        <td>50kg</td>
+                        <td>8 小时</td>
+                        <td><span class="badge badge-green">量产</span></td>
+                        <td>10 万台</td>
+                    </tr>
+                    <tr class="rank-2">
+                        <td><strong>Boston Dynamics</strong></td>
+                        <td><strong>Atlas (Hyundai)</strong></td>
+                        <td>$150,000</td>
+                        <td>80kg</td>
+                        <td>6 小时</td>
+                        <td><span class="badge badge-blue">小批量</span></td>
+                        <td>5000 台</td>
+                    </tr>
+                    <tr class="rank-3">
+                        <td><strong>Figure AI</strong></td>
+                        <td><strong>Figure 03</strong></td>
+                        <td>$100,000</td>
+                        <td>60kg</td>
+                        <td>10 小时</td>
+                        <td><span class="badge badge-blue">小批量</span></td>
+                        <td>8000 台</td>
+                    </tr>
+                    <tr>
+                        <td>Unitree</td>
+                        <td>G1</td>
+                        <td>$16,000</td>
+                        <td>40kg</td>
+                        <td>4 小时</td>
+                        <td><span class="badge badge-green">量产</span></td>
+                        <td>5 万台</td>
+                    </tr>
+                    <tr>
+                        <td>UBTech</td>
+                        <td>Walker S</td>
+                        <td>$80,000</td>
+                        <td>50kg</td>
+                        <td>6 小时</td>
+                        <td><span class="badge badge-blue">小批量</span></td>
+                        <td>3000 台</td>
+                    </tr>
+                    <tr>
+                        <td>1X Technologies</td>
+                        <td>NEO</td>
+                        <td>$50,000</td>
+                        <td>30kg</td>
+                        <td>8 小时</td>
+                        <td><span class="badge badge-orange">测试</span></td>
+                        <td>2000 台</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="highlight">
+                <strong>💡 关键发现：</strong>Tesla Optimus 以$20,000 的低价策略领跑，预计 2026 年出货 10 万台。Unitree G1 以$16,000 成为价格最低的人形机器人。
+            </div>
+        </div>
+
+        <div id="industrial" class="section">
+            <div class="section-title">🏭 四、工业机器人市场</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>厂商</th>
+                        <th>国家</th>
+                        <th>市场份额</th>
+                        <th>主要产品</th>
+                        <th>优势领域</th>
+                        <th>2026 动态</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="rank-1">
+                        <td><strong>发那科 (FANUC)</strong></td>
+                        <td>日本</td>
+                        <td><strong>18.5%</strong></td>
+                        <td>工业机器人、CNC</td>
+                        <td>汽车、3C</td>
+                        <td>AI 赋能新机型</td>
+                    </tr>
+                    <tr class="rank-2">
+                        <td><strong>ABB</strong></td>
+                        <td>瑞士</td>
+                        <td><strong>15.2%</strong></td>
+                        <td>工业机器人、协作机器人</td>
+                        <td>电子、食品</td>
+                        <td>协作机器人新品</td>
+                    </tr>
+                    <tr class="rank-3">
+                        <td><strong>安川 (YASKAWA)</strong></td>
+                        <td>日本</td>
+                        <td><strong>12.8%</strong></td>
+                        <td>伺服电机、机器人</td>
+                        <td>焊接、搬运</td>
+                        <td>伺服系统升级</td>
+                    </tr>
+                    <tr>
+                        <td>KUKA</td>
+                        <td>德国</td>
+                        <td>10.5%</td>
+                        <td>工业机器人</td>
+                        <td>汽车制造</td>
+                        <td>被美的收购后整合</td>
+                    </tr>
+                    <tr>
+                        <td>埃斯顿</td>
+                        <td>中国</td>
+                        <td>5.2%</td>
+                        <td>工业机器人</td>
+                        <td>光伏、锂电</td>
+                        <td>国产替代加速</td>
+                    </tr>
+                    <tr>
+                        <td>汇川技术</td>
+                        <td>中国</td>
+                        <td>4.8%</td>
+                        <td>伺服系统、机器人</td>
+                        <td>3C、锂电</td>
+                        <td>伺服系统领先</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="success">
+                <strong>🇨🇳 中国市场：</strong>中国工业机器人市场占全球 55%，2026 年市场规模约 1925 亿元。国产替代加速，埃斯顿、汇川技术等本土厂商份额持续提升。
+            </div>
+        </div>
+
+        <div id="service" class="section">
+            <div class="section-title">🏥 五、服务机器人市场</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>应用领域</th>
+                        <th>2026 规模</th>
+                        <th>同比增长</th>
+                        <th>主要厂商</th>
+                        <th>典型产品</th>
+                        <th>发展阶段</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="rank-1">
+                        <td><strong>医疗服务</strong></td>
+                        <td><strong>350 亿元</strong></td>
+                        <td><strong>+55%</strong></td>
+                        <td>直觉外科、微创</td>
+                        <td>手术机器人</td>
+                        <td><span class="badge badge-green">成长期</span></td>
+                    </tr>
+                    <tr class="rank-2">
+                        <td><strong>物流配送</strong></td>
+                        <td><strong>280 亿元</strong></td>
+                        <td><strong>+48%</strong></td>
+                        <td>极智嘉、海康</td>
+                        <td>AGV、AMR</td>
+                        <td><span class="badge badge-green">成长期</span></td>
+                    </tr>
+                    <tr>
+                        <td>餐饮服务</td>
+                        <td>150 亿元</td>
+                        <td>+35%</td>
+                        <td>擎朗智能、普渡</td>
+                        <td>送餐机器人</td>
+                        <td><span class="badge badge-blue">成熟期</span></td>
+                    </tr>
+                    <tr>
+                        <td>家庭服务</td>
+                        <td>120 亿元</td>
+                        <td>+40%</td>
+                        <td>科沃斯、石头</td>
+                        <td>扫地机器人</td>
+                        <td><span class="badge badge-green">成熟期</span></td>
+                    </tr>
+                    <tr>
+                        <td>教育娱乐</td>
+                        <td>100 亿元</td>
+                        <td>+30%</td>
+                        <td>优必选、能力风暴</td>
+                        <td>教育机器人</td>
+                        <td><span class="badge badge-blue">成长期</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="companies" class="section">
+            <div class="section-title">🏢 六、主要厂商分析</div>
+            
+            <div class="company-card">
+                <h3>1. Tesla - Optimus（人形机器人领军者）⭐</h3>
+                <ul>
+                    <li><strong>产品：</strong>Optimus Gen 3（2026 年量产）</li>
+                    <li><strong>价格：</strong>$20,000（行业最低之一）</li>
+                    <li><strong>产能：</strong>Fremont 工厂改造，目标 2026 年 10 万台</li>
+                    <li><strong>技术：</strong>FSD 自动驾驶技术迁移、Dojo 超级计算机训练</li>
+                    <li><strong>应用：</strong>工厂搬运、家庭服务、危险作业</li>
+                    <li><strong>优势：</strong>规模化生产能力、AI 技术积累、成本控制</li>
+                </ul>
+            </div>
+
+            <div class="company-card">
+                <h3>2. Boston Dynamics - Atlas（技术领先者）</h3>
+                <ul>
+                    <li><strong>产品：</strong>Atlas（Hyundai 支持）</li>
+                    <li><strong>价格：</strong>$150,000（高端定位）</li>
+                    <li><strong>技术：</strong>液压驱动、运动控制行业领先</li>
+                    <li><strong>应用：</strong>工业巡检、救援、科研</li>
+                    <li><strong>优势：</strong>运动算法、动态平衡、复杂地形适应</li>
+                    <li><strong>2026 动态：</strong>CES 2026 展示，Hyundai 股价上涨 80%</li>
+                </ul>
+            </div>
+
+            <div class="company-card">
+                <h3>3. Figure AI - Figure 03（快速崛起者）🚀</h3>
+                <ul>
+                    <li><strong>产品：</strong>Figure 03（2026 年小批量）</li>
+                    <li><strong>价格：</strong>$100,000</li>
+                    <li><strong>融资：</strong>微软、英伟达等投资，估值 390 亿美元</li>
+                    <li><strong>技术：</strong>端到端神经网络、视觉 - 语言模型</li>
+                    <li><strong>应用：</strong>仓储物流、制造业</li>
+                    <li><strong>优势：</strong>AI 技术、融资能力强、商业化速度快</li>
+                </ul>
+            </div>
+
+            <div class="company-card">
+                <h3>4. 发那科 (FANUC) - 工业机器人龙头</h3>
+                <ul>
+                    <li><strong>市场份额：</strong>18.5%（全球第一）</li>
+                    <li><strong>产品：</strong>工业机器人、CNC 系统</li>
+                    <li><strong>优势领域：</strong>汽车制造、3C 电子</li>
+                    <li><strong>2026 动态：</strong>AI 赋能新机型发布</li>
+                    <li><strong>中国策略：</strong>本土化生产、渠道下沉</li>
+                </ul>
+            </div>
+
+            <div class="company-card">
+                <h3>5. 埃斯顿 - 国产工业机器人代表🇨🇳</h3>
+                <ul>
+                    <li><strong>市场份额：</strong>5.2%（国产第一）</li>
+                    <li><strong>产品：</strong>工业机器人、协作机器人</li>
+                    <li><strong>优势领域：</strong>光伏、锂电、焊接</li>
+                    <li><strong>2026 动态：</strong>国产替代加速，份额持续提升</li>
+                    <li><strong>优势：</strong>性价比、本土服务、快速响应</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="technology" class="section">
+            <div class="section-title">⚙️ 七、关键技术趋势</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>技术方向</th>
+                        <th>说明</th>
+                        <th>成熟度</th>
+                        <th>时间线</th>
+                        <th>影响</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="rank-1">
+                        <td><strong>AI 大模型</strong></td>
+                        <td>LLM 赋能机器人决策</td>
+                        <td><span class="badge badge-green">商业化</span></td>
+                        <td>2026 Q1-Q2</td>
+                        <td>智能化水平提升</td>
+                    </tr>
+                    <tr class="rank-2">
+                        <td><strong>具身智能</strong></td>
+                        <td>感知 - 决策 - 执行闭环</td>
+                        <td><span class="badge badge-blue">测试</span></td>
+                        <td>2026 Q2-Q4</td>
+                        <td>自主能力增强</td>
+                    </tr>
+                    <tr>
+                        <td><strong>灵巧手</strong></td>
+                        <td>仿人手操作能力</td>
+                        <td><span class="badge badge-blue">测试</span></td>
+                        <td>2026-2027</td>
+                        <td>精细操作能力</td>
+                    </tr>
+                    <tr>
+                        <td><strong>电池技术</strong></td>
+                        <td>高能量密度电池</td>
+                        <td><span class="badge badge-green">商业化</span></td>
+                        <td>2026 全年</td>
+                        <td>续航时间延长</td>
+                    </tr>
+                    <tr>
+                        <td><strong>传感器融合</strong></td>
+                        <td>视觉 + 激光雷达+IMU</td>
+                        <td><span class="badge badge-green">商业化</span></td>
+                        <td>2026 全年</td>
+                        <td>环境感知提升</td>
+                    </tr>
+                    <tr>
+                        <td><strong>云端协同</strong></td>
+                        <td>云 - 边 - 端协同计算</td>
+                        <td><span class="badge badge-blue">测试</span></td>
+                        <td>2026-2027</td>
+                        <td>计算效率提升</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="highlight">
+                <strong>🔮 技术趋势：</strong>AI 大模型成为机器人"大脑"，具身智能成为 2026 年最大技术热点。Tesla、Figure AI 等厂商已将 LLM 技术应用于机器人决策系统。
+            </div>
+        </div>
+
+        <div id="investment" class="section">
+            <div class="section-title">💰 八、投资建议</div>
+            <div class="company-card" style="border-left: 5px solid #2e7d32;">
+                <h3>✅ 强烈推荐</h3>
+                <ul>
+                    <li><strong>Tesla</strong> - 人形机器人龙头、规模化能力、AI 技术领先，长期持有</li>
+                    <li><strong>发那科 (FANUC)</strong> - 工业机器人龙头、市场份额第一、稳定分红，稳健配置</li>
+                    <li><strong>Figure AI</strong> - 快速崛起、融资能力强、商业化速度快，中期关注（未上市）</li>
+                </ul>
+            </div>
+            <div class="company-card" style="border-left: 5px solid #ffc107;">
+                <h3>⚠️ 推荐关注</h3>
+                <ul>
+                    <li><strong>Boston Dynamics (Hyundai)</strong> - 技术领先、Hyundai 支持，关注上市进展</li>
+                    <li><strong>埃斯顿</strong> - 国产工业机器人龙头、国产替代受益，中期配置</li>
+                    <li><strong>汇川技术</strong> - 伺服系统领先、机器人业务增长，稳健配置</li>
+                </ul>
+            </div>
+            <div class="company-card" style="border-left: 5px solid #1976d2;">
+                <h3>🔍 观察标的</h3>
+                <ul>
+                    <li><strong>Unitree</strong> - 价格优势、消费级产品，关注融资进展（未上市）</li>
+                    <li><strong>UBTech</strong> - 人形机器人 Walker 系列，关注商业化进展</li>
+                    <li><strong>极智嘉</strong> - 物流机器人龙头，关注上市进展（未上市）</li>
+                </ul>
+            </div>
+            <div class="warning">
+                <strong>⚠️ 风险提示：</strong>
+                <ul style="margin-top: 10px; margin-left: 20px;">
+                    <li>技术迭代快，今天领先明天可能落后</li>
+                    <li>人形机器人商业化进度可能低于预期</li>
+                    <li>行业竞争加剧，价格战持续</li>
+                    <li>监管政策不确定性（安全、就业影响）</li>
+                    <li>核心零部件（减速器、伺服）依赖进口</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong>免责声明：</strong>本报告数据来源于公开渠道，仅供参考，不构成投资建议。机器人行业变化快，数据可能随时更新。</p>
+            <p>报告生成时间：2026-03-07 12:45:00 (Asia/Shanghai)</p>
+            <p>数据来源：各厂商官网、公开报道、行业调研、IFR、第三方数据平台</p>
+            <p>本报告由 AI 助手生成，仅供参考</p>
+        </div>
+    </div>
+</body>
+</html>

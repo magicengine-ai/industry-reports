@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中国电力结构分析报告 2025 | 行业研究报告</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .header .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+            color: #a8d5ba;
+        }
+        
+        .header .date {
+            margin-top: 15px;
+            font-size: 0.9em;
+            opacity: 0.7;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(245, 87, 108, 0.4);
+        }
+        
+        .highlight-box h2 {
+            font-size: 1.4em;
+            margin-bottom: 15px;
+        }
+        
+        .highlight-box .key-stat {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin: 15px 0;
+        }
+        
+        .section {
+            margin-bottom: 35px;
+        }
+        
+        .section h2 {
+            font-size: 1.6em;
+            color: #1a1a2e;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        .section h3 {
+            font-size: 1.2em;
+            color: #16213e;
+            margin: 20px 0 15px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.95em;
+        }
+        
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 14px 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        tr:hover {
+            background-color: #f0f0f5;
+        }
+        
+        .trend-up {
+            color: #10b981;
+            font-weight: 600;
+        }
+        
+        .trend-down {
+            color: #ef4444;
+            font-weight: 600;
+        }
+        
+        .trend-stable {
+            color: #6b7280;
+            font-weight: 600;
+        }
+        
+        .chart-container {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+        
+        .bar-chart {
+            margin: 15px 0;
+        }
+        
+        .bar-item {
+            margin: 12px 0;
+        }
+        
+        .bar-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            font-size: 0.95em;
+        }
+        
+        .bar {
+            height: 28px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            padding-left: 12px;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+        }
+        
+        .bar:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .bar-thermal { background: linear-gradient(90deg, #ef4444, #f97316); }
+        .bar-hydro { background: linear-gradient(90deg, #3b82f6, #06b6d4); }
+        .bar-wind { background: linear-gradient(90deg, #10b981, #34d399); }
+        .bar-solar { background: linear-gradient(90deg, #fbbf24, #f59e0b); }
+        .bar-nuclear { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
+        .bar-renewable { background: linear-gradient(90deg, #667eea, #764ba2); }
+        
+        .milestone-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .milestone-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .milestone-card .value {
+            font-size: 2em;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .milestone-card .label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        
+        .insight-box {
+            background: #f0f9ff;
+            border-left: 4px solid #0284c7;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 12px 12px 0;
+        }
+        
+        .insight-box h4 {
+            color: #0284c7;
+            margin-bottom: 12px;
+            font-size: 1.1em;
+        }
+        
+        .insight-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .insight-box li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .insight-box li:before {
+            content: "💡";
+            position: absolute;
+            left: 0;
+        }
+        
+        .footer {
+            background: #f8f9fa;
+            padding: 25px 40px;
+            text-align: center;
+            border-top: 1px solid #e0e0e0;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .tag {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+        
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 1.6em;
+            }
+            
+            .content {
+                padding: 25px;
+            }
+            
+            table {
+                font-size: 0.85em;
+            }
+            
+            th, td {
+                padding: 10px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔌 中国电力结构分析报告</h1>
+            <div class="subtitle">2025 年度数据深度解析</div>
+            <div class="date">数据来源：国家能源局、国家统计局、中国电力企业联合会 | 2026 年 4 月</div>
+        </div>
+        
+        <div class="content">
+            <div class="highlight-box">
+                <h2>📊 核心结论</h2>
+                <div class="key-stat">🔥 火电仍占发电量 ~63%，但新能源装机历史性超过火电</div>
+                <p style="margin-top: 15px; line-height: 1.6;">
+                    <strong>装机容量：</strong>可再生能源占比 60%，风电 + 太阳能占比 47% 首超火电<br>
+                    <strong>发电量：</strong>每消耗 3 度电中就有 1 度来自可再生能源<br>
+                    <strong>趋势：</strong>火电发电量首次下降（-1.0%），太阳能增长最快（+24.4%）
+                </p>
+            </div>
+            
+            <div class="section">
+                <h2>📈 一、发电装机容量（截至 2025 年底）</h2>
+                <p>全国累计发电装机容量 <strong>38.9 亿千瓦</strong》，同比增长 16.1%。</p>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>电源类型</th>
+                            <th>装机容量（亿千瓦）</th>
+                            <th>占比</th>
+                            <th>同比增长</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>🔴 火电</strong></td>
+                            <td>~15.5</td>
+                            <td>~40%</td>
+                            <td class="trend-stable">-</td>
+                        </tr>
+                        <tr>
+                            <td>└─ 煤电</td>
+                            <td>~11.9</td>
+                            <td>30.6%</td>
+                            <td class="trend-up">+2.6%</td>
+                        </tr>
+                        <tr style="background: #f0fdf4;">
+                            <td><strong>🟢 可再生能源</strong></td>
+                            <td><strong>23.4</strong></td>
+                            <td><strong>60%</strong></td>
+                            <td class="trend-up"><strong>+24%</strong></td>
+                        </tr>
+                        <tr>
+                            <td>└─ 水电</td>
+                            <td>4.5</td>
+                            <td>11.6%</td>
+                            <td class="trend-stable">-</td>
+                        </tr>
+                        <tr>
+                            <td>└─ 风电</td>
+                            <td>6.4</td>
+                            <td>16.5%</td>
+                            <td class="trend-up">+22.9%</td>
+                        </tr>
+                        <tr>
+                            <td>└─ 太阳能</td>
+                            <td>12.0</td>
+                            <td>30.8%</td>
+                            <td class="trend-up"><strong>+35.4%</strong></td>
+                        </tr>
+                        <tr>
+                            <td>└─ 生物质</td>
+                            <td>0.47</td>
+                            <td>1.2%</td>
+                            <td class="trend-stable">-</td>
+                        </tr>
+                        <tr>
+                            <td><strong>⚛️ 核电</strong></td>
+                            <td>~0.65</td>
+                            <td>~1.7%</td>
+                            <td class="trend-stable">-</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="chart-container">
+                    <h3 style="margin-top: 0;">📊 装机容量结构可视化</h3>
+                    
+                    <div class="bar-chart">
+                        <div class="bar-item">
+                            <div class="bar-label">
+                                <span>🟢 可再生能源</span>
+                                <span>60%</span>
+                            </div>
+                            <div class="bar bar-renewable" style="width: 60%;">60% 可再生能源</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">
+                                <span>🔴 火电</span>
+                                <span>40%</span>
+                            </div>
+                            <div class="bar bar-thermal" style="width: 40%;">40% 火电</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">
+                                <span>☀️ 太阳能</span>
+                                <span>30.8%</span>
+                            </div>
+                            <div class="bar bar-solar" style="width: 30.8%;">30.8% 太阳能</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">
+                                <span>🌬️ 风电</span>
+                                <span>16.5%</span>
+                            </div>
+                            <div class="bar bar-wind" style="width: 16.5%;">16.5% 风电</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">
+                                <span>💧 水电</span>
+                                <span>11.6%</span>
+                            </div>
+                            <div class="bar bar-hydro" style="width: 11.6%;">11.6% 水电</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">
+                                <span>⚛️ 核电</span>
+                                <span>1.7%</span>
+                            </div>
+                            <div class="bar bar-nuclear" style="width: 1.7%;">1.7% 核电</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="milestone-grid">
+                    <div class="milestone-card">
+                        <div class="value">47%</div>
+                        <div class="label">风电 + 太阳能装机占比<br>历史性超过火电</div>
+                    </div>
+                    <div class="milestone-card">
+                        <div class="value">18.4 亿千瓦</div>
+                        <div class="label">风电 + 太阳能<br>合计装机</div>
+                    </div>
+                    <div class="milestone-card">
+                        <div class="value">83%</div>
+                        <div class="label">新增装机中<br>可再生能源占比</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>⚡ 二、发电量结构（2025 年全年）</h2>
+                <p>全国总发电量约 <strong>10.1 万亿千瓦时</strong》，全社会用电量首超 10 万亿千瓦时。</p>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>电源类型</th>
+                            <th>发电量（亿千瓦时）</th>
+                            <th>占比</th>
+                            <th>同比增长</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>🔴 火电</strong></td>
+                            <td>~63,700</td>
+                            <td><strong>~63%</strong></td>
+                            <td class="trend-down">-1.0% ↓</td>
+                        </tr>
+                        <tr>
+                            <td><strong>💧 水电</strong></td>
+                            <td>~14,300</td>
+                            <td>~14.1%</td>
+                            <td class="trend-up">+2.8%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>🌬️ 风电</strong></td>
+                            <td>~10,500</td>
+                            <td>~10.4%</td>
+                            <td class="trend-up">+9.7%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>☀️ 太阳能</strong></td>
+                            <td>~5,700</td>
+                            <td>~5.7%</td>
+                            <td class="trend-up"><strong>+24.4%</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>⚛️ 核电</strong></td>
+                            <td>~4,800</td>
+                            <td>~4.8%</td>
+                            <td class="trend-up">+7.7%</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="chart-container">
+                    <h3 style="margin-top: 0;">⚡ 发电量结构可视化</h3>
+                    
+                    <div class="bar-chart">
+                        <div class="bar-item">
+                            <div class="bar-label">
+                                <span>🔴 火电</span>
+                                <span>~63%</span>
+                            </div>
+                            <div class="bar bar-thermal" style="width: 63%;">63% 火电</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">
+                                <span>💧 水电</span>
+                                <span>~14%</span>
+                            </div>
+                            <div class="bar bar-hydro" style="width: 14%;">14% 水电</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">
+                                <span>🌬️ 风电</span>
+                                <span>~10%</span>
+                            </div>
+                            <div class="bar bar-wind" style="width: 10%;">10% 风电</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">
+                                <span>☀️ 太阳能</span>
+                                <span>~6%</span>
+                            </div>
+                            <div class="bar bar-solar" style="width: 6%;">6% 太阳能</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">
+                                <span>⚛️ 核电</span>
+                                <span>~5%</span>
+                            </div>
+                            <div class="bar bar-nuclear" style="width: 5%;">5% 核电</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="insight-box">
+                    <h4>💡 关键洞察：装机 vs 发电量的差异</h4>
+                    <ul>
+                        <li>新能源装机占比 60%，但发电量占比约 33%</li>
+                        <li>原因：风电、太阳能利用小时数低于火电（风电约 2,200 小时，太阳能约 1,300 小时，火电约 4,500 小时）</li>
+                        <li>风电光伏发电量约占全社会用电量的 22%</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>🆕 三、2025 年新增装机</h2>
+                <p>全国可再生能源发电新增装机 <strong>4.52 亿千瓦</strong>》，同比增长 21%，占全国电力新增装机的 83%。</p>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>电源类型</th>
+                            <th>新增装机（亿千瓦）</th>
+                            <th>占新增总量比例</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background: #f0fdf4;">
+                            <td><strong>🟢 可再生能源</strong></td>
+                            <td><strong>4.52</strong></td>
+                            <td><strong>83%</strong></td>
+                        </tr>
+                        <tr>
+                            <td>└─ 太阳能</td>
+                            <td>3.18</td>
+                            <td>59%</td>
+                        </tr>
+                        <tr>
+                            <td>└─ 风电</td>
+                            <td>1.2</td>
+                            <td>22%</td>
+                        </tr>
+                        <tr>
+                            <td>└─ 水电</td>
+                            <td>0.12</td>
+                            <td>2%</td>
+                        </tr>
+                        <tr>
+                            <td>└─ 生物质</td>
+                            <td>0.015</td>
+                            <td>&lt;1%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="section">
+                <h2>🎯 四、关键里程碑</h2>
+                
+                <div class="milestone-grid">
+                    <div class="milestone-card">
+                        <div class="value">10 万亿+</div>
+                        <div class="label">全社会用电量<br>首超 10 万亿千瓦时</div>
+                    </div>
+                    <div class="milestone-card">
+                        <div class="value">60%</div>
+                        <div class="label">可再生能源<br>装机占比</div>
+                    </div>
+                    <div class="milestone-card">
+                        <div class="value">1/3</div>
+                        <div class="label">每 3 度电中<br>1 度来自绿电</div>
+                    </div>
+                    <div class="milestone-card">
+                        <div class="value">51.1%</div>
+                        <div class="label">煤电发电量占比<br>较"十三五"末降 9.6 个百分点</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>📊 五、电力结构转型趋势</h2>
+                
+                <div class="insight-box">
+                    <h4>🔥 火电角色转变</h4>
+                    <ul>
+                        <li>从"主力电源"向"调节性电源"转型</li>
+                        <li>煤电发电量占比降至 51.1%，但仍过半</li>
+                        <li>2025 年火电发电量首次下降（-1.0%）</li>
+                    </ul>
+                </div>
+                
+                <div class="insight-box" style="background: #fdf2f8; border-left-color: #db2777;">
+                    <h4>🟢 绿色转型加速</h4>
+                    <ul>
+                        <li>2025 年新增装机 83% 来自可再生能源</li>
+                        <li>太阳能发电增长 24.4%，领跑所有电源</li>
+                        <li>风电 + 太阳能装机占比有望达 50%</li>
+                    </ul>
+                </div>
+                
+                <div class="insight-box" style="background: #fef3c7; border-left-color: #d97706;">
+                    <h4>🔮 2026 年展望</h4>
+                    <ul>
+                        <li>国家能源局：持续提高新能源供给比重</li>
+                        <li>全面落实新能源集成融合发展政策措施</li>
+                        <li>统筹新能源大规模开发和高水平消纳</li>
+                        <li>培育新能源生产消费新模式新业态</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>🏷️ 标签</h2>
+                <div>
+                    <span class="tag">电力行业</span>
+                    <span class="tag">可再生能源</span>
+                    <span class="tag">火电</span>
+                    <span class="tag">风电</span>
+                    <span class="tag">太阳能</span>
+                    <span class="tag">水电</span>
+                    <span class="tag">核电</span>
+                    <span class="tag">能源转型</span>
+                    <span class="tag">碳中和</span>
+                    <span class="tag">2025 年度报告</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p><strong>数据来源：</strong>国家能源局、国家统计局、中国电力企业联合会（2026 年 1-2 月发布）</p>
+            <p style="margin-top: 10px;">
+                <a href="https://magicengine-ai.github.io/industry-reports/">← 返回首页</a> | 
+                <a href="https://github.com/magicengine-ai/industry-reports">GitHub 仓库</a>
+            </p>
+            <p style="margin-top: 15px; font-size: 0.85em; color: #999;">
+                本报告基于公开数据整理，仅供参考，不构成投资建议。
+            </p>
+        </div>
+    </div>
+</body>
+</html>
