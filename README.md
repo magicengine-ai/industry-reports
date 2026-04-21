@@ -14,6 +14,7 @@
 
 | 报告名称 | 行业 | 发布日期 |
 |---------|------|---------|
+| [Hermes Agent 架构深度分析报告 2026](reports/2026-04-21-hermes-agent-architecture-report.html) | AI Agent 框架/架构分析 | 2026-04-21 |
 | [全球摩托车产业深度研究报告 2026](reports/全球摩托车产业深度研究报告%202026.html) | 汽车/摩托车产业 | 2026-04-03 |
 | [AI 智能体每周资讯报告 2026-W14](reports/ai-agent-weekly-news-2026-w14.html) | 人工智能/行业资讯 | 2026-04-02 |
 | [Claude Code 泄露源码架构分析报告](reports/claude-code-leaked-architecture-analysis.html) | 技术架构/AI 编程 | 2026-04-02 |
