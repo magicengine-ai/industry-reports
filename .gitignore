@@ -1,0 +1,12 @@
+# 忽略非报告文件
+*.md
+!README.md
+
+# 忽略子仓库/其他项目目录
+human-history/
+us-gov/
+isaac*/
+
+# 忽略临时文件
+.DS_Store
+Thumbs.db
