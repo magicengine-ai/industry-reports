@@ -14,6 +14,7 @@
 
 | 报告名称 | 行业 | 发布日期 |
 |---------|------|---------|
+| [2026 AI 智能眼镜行业深度报告](reports/2026-05-03-ai-smart-glasses-report.html) | 消费电子/AI 硬件 | 2026-05-03 |
 | [DeepSeek V4 模型深度分析报告 2026](reports/2026-04-26-deepseek-v4-model-analysis.html) | AI 大模型/技术架构 | 2026-04-26 |
 | [Hermes Agent 架构深度分析报告 2026](reports/2026-04-21-hermes-agent-architecture-report.html) | AI Agent 框架/架构分析 | 2026-04-21 |
 | [全球摩托车产业深度研究报告 2026](reports/全球摩托车产业深度研究报告%202026.html) | 汽车/摩托车产业 | 2026-04-03 |
