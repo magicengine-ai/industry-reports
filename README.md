@@ -14,6 +14,9 @@
 
 | 报告名称 | 行业 | 发布日期 |
 |---------|------|---------|
+| [SpaceX 2026 IPO 综合分析报告](reports/spacex_2026_ipo_comprehensive_report.html) | 金融/航天 | 2026-05-23 |
+| [大语言模型（LLM）全景深度研究报告 2026](reports/llm_deep_dive_comprehensive_report_2026.html) | 人工智能/大语言模型 | 2026-05-23 |
+| [指纹传感器技术深度研究报告 2026](reports/fingerprint_sensor_deep_dive_report_2026.html) | 半导体/生物识别 | 2026-05-23 |
 | [2026 AI 智能眼镜行业深度报告](reports/2026-05-03-ai-smart-glasses-report.html) | 消费电子/AI 硬件 | 2026-05-03 |
 | [DeepSeek V4 模型深度分析报告 2026](reports/2026-04-26-deepseek-v4-model-analysis.html) | AI 大模型/技术架构 | 2026-04-26 |
 | [Hermes Agent 架构深度分析报告 2026](reports/2026-04-21-hermes-agent-architecture-report.html) | AI Agent 框架/架构分析 | 2026-04-21 |
