@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpaceX 2026 IPO 综合分析报告</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        :root {
+            --primary: #0a1628;
+            --primary-light: #1a2d4a;
+            --accent: #c8a84e;
+            --accent-light: #e8d08c;
+            --text: #e2e8f0;
+            --text-muted: #94a3b8;
+            --border: #2d3f5e;
+            --card-bg: #0f1f38;
+            --table-header: #162035;
+            --table-stripe: #0c1829;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --radius: 8px;
+            --shadow: 0 4px 24px rgba(0,0,0,0.3);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--primary);
+            color: var(--text);
+            line-height: 1.8;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .report-header {
+            background: linear-gradient(135deg, #0a1628 0%, #1a2d4a 50%, #0f1f38 100%);
+            border-bottom: 3px solid var(--accent);
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .report-header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(ellipse at 30% 50%, rgba(200,168,78,0.08) 0%, transparent 60%);
+            pointer-events: none;
+        }
+        .report-header h1 {
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+            position: relative;
+        }
+        .report-header h1 span { color: var(--accent); }
+        .report-header .subtitle {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+        .report-header .meta-badges {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(200,168,78,0.12);
+            border: 1px solid rgba(200,168,78,0.3);
+            color: var(--accent-light);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        .toc {
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border);
+            padding: 1.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+        }
+        .toc-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        .toc-inner::-webkit-scrollbar { display: none; }
+        .toc a {
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+            font-size: 0.85rem;
+            white-space: nowrap;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+        }
+        .toc a:hover {
+            color: var(--accent);
+            background: rgba(200,168,78,0.08);
+            border-color: rgba(200,168,78,0.2);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+        }
+        .section {
+            margin-bottom: 3rem;
+            animation: fadeIn 0.6s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .section-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #fff;
+            padding-bottom: 0.8rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        .section-title .icon {
+            width: 32px;
+            height: 32px;
+            background: var(--accent);
+            color: var(--primary);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: 700;
+        }
+        .subsection-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--accent-light);
+            margin: 1.5rem 0 1rem;
+            padding-left: 1rem;
+            border-left: 3px solid var(--accent);
+        }
+        .subsubsection-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text);
+            margin: 1.2rem 0 0.8rem;
+        }
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        .summary-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.2rem;
+            text-align: center;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .summary-item:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent);
+        }
+        .summary-item .label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+        .summary-item .value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #fff;
+        }
+        .summary-item .value.accent { color: var(--accent); }
+        .summary-item .value.green { color: var(--success); }
+        .summary-item .value.red { color: var(--danger); }
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 1rem 0;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        thead { background: var(--table-header); }
+        th {
+            padding: 0.9rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--accent-light);
+            border-bottom: 2px solid var(--accent);
+            white-space: nowrap;
+        }
+        td {
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--text);
+        }
+        tbody tr:nth-child(even) { background: var(--table-stripe); }
+        tbody tr:hover { background: rgba(200,168,78,0.05); }
+        td strong { color: #fff; }
+        .highlight-row { background: rgba(200,168,78,0.08) !important; }
+        ul, ol { padding-left: 1.5rem; margin: 0.8rem 0; }
+        li { margin-bottom: 0.4rem; color: var(--text); }
+        li strong { color: #fff; }
+        .risk-high { color: var(--danger); font-weight: 600; }
+        .risk-medium-high { color: #f97316; font-weight: 600; }
+        .risk-medium { color: var(--warning); font-weight: 600; }
+        .risk-low { color: var(--success); font-weight: 600; }
+        .mermaid-container {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            text-align: center;
+            overflow-x: auto;
+        }
+        .mermaid-container.gantt-wide {
+            min-width: 900px;
+            overflow-x: auto;
+            max-width: 100%;
+            padding-bottom: 1rem;
+        }
+        .mermaid-container.gantt-wide .mermaid {
+            min-width: 1000px;
+            justify-content: flex-start;
+        }
+        blockquote {
+            border-left: 4px solid var(--accent);
+            background: rgba(200,168,78,0.06);
+            padding: 1rem 1.5rem;
+            margin: 1rem 0;
+            border-radius: 0 var(--radius) var(--radius) 0;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+        hr { border: none; height: 1px; background: var(--border); margin: 2rem 0; }
+        .report-footer {
+            background: var(--card-bg);
+            border-top: 1px solid var(--border);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+        .report-footer p { margin-bottom: 0.3rem; }
+        @media (max-width: 768px) {
+            .report-header h1 { font-size: 1.6rem; }
+            .summary-grid { grid-template-columns: repeat(2, 1fr); }
+            .section-title { font-size: 1.3rem; }
+            th, td { padding: 0.6rem 0.7rem; font-size: 0.82rem; }
+            .toc { padding: 1rem; }
+        }
+        @media (max-width: 480px) {
+            .summary-grid { grid-template-columns: 1fr; }
+            .container { padding: 1rem; }
+        }
+        @media print {
+            body { background: #fff; color: #1a1a1a; }
+            .toc { position: static; }
+            .card, .summary-item, .table-wrapper { box-shadow: none; border-color: #ddd; }
+            .section-title { border-bottom-color: #333; }
+            th { color: #333; }
+            td, li, p { color: #1a1a1a; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="report-header">
+    <h1>SpaceX 2026 <span>IPO</span> 综合分析报告</h1>
+    <p class="subtitle">基于 SEC Form S-1 官方文件 (Filed: May 20, 2026)</p>
+    <div class="meta-badges">
+        <span class="badge">📅 报告日期: 2026年5月23日</span>
+        <span class="badge">📊 目标估值: $1.75T – $2T</span>
+        <span class="badge">💰 拟募资: 最高 $750 亿</span>
+        <span class="badge">🏛️ 纳斯达克 · SPCX</span>
+    </div>
+</header>
+
+<nav class="toc">
+    <div class="toc-inner">
+        <a href="#summary">执行摘要</a>
+        <a href="#chapter1">IPO 时间线</a>
+        <a href="#chapter2">财务分析</a>
+        <a href="#chapter3">估值分析</a>
+        <a href="#chapter4">公司治理</a>
+        <a href="#chapter5">业务部门</a>
+        <a href="#chapter6">风险因素</a>
+        <a href="#chapter7">战略愿景</a>
+    </div>
+</nav>
+
+<main class="container">
+
+<!-- ==================== 执行摘要 ==================== -->
+<section class="section" id="summary">
+    <h2 class="section-title"><span class="icon">⚡</span> 执行摘要</h2>
+    <div class="card">
+        <p>Space Exploration Technologies Corp. (SpaceX) 于 2026 年 5 月 20 日正式向美国证券交易委员会 (SEC) 提交了 <strong>Form S-1</strong> 注册声明，计划在 <strong>纳斯达克 (Nasdaq)</strong> 上市，股票代码为 <strong>"SPCX"</strong>。这是 SpaceX 创立 24 年来首次公开募股，也是美国历史上规模最大的 IPO 之一。</p>
+    </div>
+    <h3 class="subsubsection-title">核心数据速览</h3>
+    <div class="summary-grid">
+        <div class="summary-item"><div class="label">Filing 日期</div><div class="value">2026-05-20</div></div>
+        <div class="summary-item"><div class="label">目标估值</div><div class="value accent">$1.75T – $2T</div></div>
+        <div class="summary-item"><div class="label">拟募资金额</div><div class="value accent">最高 $750 亿</div></div>
+        <div class="summary-item"><div class="label">预计路演</div><div class="value">2026-06-04</div></div>
+        <div class="summary-item"><div class="label">预计定价日</div><div class="value">2026-06-11</div></div>
+        <div class="summary-item"><div class="label">预计首交易日</div><div class="value">2026-06-12</div></div>
+        <div class="summary-item"><div class="label">2025 营收</div><div class="value green">$186.74 亿</div></div>
+        <div class="summary-item"><div class="label">2025 净亏损</div><div class="value red">$49.4 亿</div></div>
+        <div class="summary-item"><div class="label">Q1 2026 营收</div><div class="value">$46.94 亿</div></div>
+        <div class="summary-item"><div class="label">Starlink 用户</div><div class="value">~850 万</div></div>
+        <div class="summary-item"><div class="label">Musk 股权</div><div class="value">~42%</div></div>
+        <div class="summary-item"><div class="label">Musk 投票权</div><div class="value accent">~79% – 85.1%</div></div>
+    </div>
+</section>
+
+<!-- ==================== 第一章: IPO 时间线 ==================== -->
+<section class="section" id="chapter1">
+    <h2 class="section-title"><span class="icon">1</span> 第一章：IPO 时间线与关键里程碑</h2>
+
+    <h3 class="subsection-title">1.1 注册与审批流程</h3>
+    <div class="mermaid-container gantt-wide">
+        <div class="mermaid">
+gantt
+    title SpaceX IPO 时间线 (2026)
+    dateFormat  YYYY-MM-DD
+    section SEC 流程
+    S-1 提交              :done, s1, 2026-05-20, 1d
+    SEC 审阅期            :active, review, 2026-05-21, 14d
+    S-1/A 修正案 (预期)    :crit, amend, 2026-06-02, 2d
+    section 市场活动
+    路演开始              :crit, roadshow, 2026-06-04, 5d
+    定价日                :crit, pricing, 2026-06-11, 1d
+    section 上市
+    纳斯达克交易开始       :crit, trading, 2026-06-12, 1d
+        </div>
+    </div>
+
+    <h3 class="subsection-title">1.2 关键日期</h3>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr><th>阶段</th><th>日期</th><th>状态</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Form S-1 提交</td><td>2026-05-20</td><td>✅ 已完成</td></tr>
+                <tr><td>SEC 审阅期</td><td>2026-05-21 至 2026-06-03</td><td>🔄 进行中</td></tr>
+                <tr><td>路演启动</td><td>~2026-06-04</td><td>⏳ 待定</td></tr>
+                <tr><td>定价日</td><td>~2026-06-11</td><td>⏳ 待定</td></tr>
+                <tr><td>纳斯达克首交易日</td><td>~2026-06-12</td><td>⏳ 待定</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3 class="subsection-title">1.3 发行规模</h3>
+    <div class="card">
+        <ul>
+            <li><strong>拟募资金额</strong>: 最高 <strong>$750 亿</strong>，若成功将成为美国历史上最大规模 IPO 之一</li>
+            <li><strong>估值区间</strong>: $1.75 万亿至 $2 万亿</li>
+            <li><strong>股票代码</strong>: SPCX (Nasdaq)</li>
+            <li><strong>承销商</strong>: 待最终确定 (预计包括 Goldman Sachs, Morgan Stanley, JPMorgan 等顶级投行)</li>
+        </ul>
+    </div>
+</section>
+
+<!-- ==================== 第二章: 财务分析 ==================== -->
+<section class="section" id="chapter2">
+    <h2 class="section-title"><span class="icon">2</span> 第二章：财务数据深度分析</h2>
+
+    <h3 class="subsection-title">2.1 合并损益表摘要</h3>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr><th>指标</th><th>FY 2024</th><th>FY 2025</th><th>YoY 变化</th><th>Q1 2025</th><th>Q1 2026</th><th>YoY 变化</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>总营收</strong></td><td>$140 亿</td><td><strong>$186.74 亿</strong></td><td><strong>+33%</strong></td><td>$103 亿</td><td><strong>$46.94 亿</strong></td><td>—</td></tr>
+                <tr><td><strong>营业亏损</strong></td><td>—</td><td><strong>$25.9 亿</strong></td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+                <tr><td><strong>净亏损</strong></td><td>$7.91 亿 (利润)</td><td><strong>$49.4 亿</strong></td><td>转亏</td><td>—</td><td><strong>$42.8 亿</strong></td><td>亏损扩大</td></tr>
+                <tr><td><strong>调整后 EBITDA</strong></td><td>—</td><td><strong>$66 亿</strong></td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3 class="subsection-title">2.2 营收结构分析</h3>
+    <h4 class="subsubsection-title">2.2.1 按业务部门拆分 (FY 2025)</h4>
+    <div class="mermaid-container">
+        <div class="mermaid">
+pie title SpaceX 2025 营收结构
+    "Starlink (连接业务)" : 60
+    "Space Segment (发射+NASA服务)" : 21.5
+    "其他业务" : 18.5
+        </div>
+    </div>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr><th>业务部门</th><th>2025 营收</th><th>占比</th><th>说明</th></tr>
+            </thead>
+            <tbody>
+                <tr class="highlight-row"><td><strong>Starlink (连接业务)</strong></td><td><strong>$114 亿</strong></td><td>~60%</td><td>主导营收和利润来源，用户约 850 万</td></tr>
+                <tr><td><strong>Space Segment</strong></td><td><strong>$40 亿</strong></td><td>~21.5%</td><td>包括猎鹰9号/重型发射业务 + NASA 宇航员服务</td></tr>
+                <tr><td><strong>其他业务</strong></td><td><strong>$32.74 亿</strong></td><td>~18.5%</td><td>包括星舰相关合同、政府服务、技术授权等</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h4 class="subsubsection-title">2.2.2 盈利能力对比</h4>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr><th>业务</th><th>2025 年收入贡献</th><th>盈利状况</th><th>趋势</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>Starlink</strong></td><td>$114 亿</td><td><strong style="color:var(--success)">盈利</strong> — Q1 2026 收入 $11.9 亿，同比增 15%</td><td>持续扩张，全球用户增长强劲</td></tr>
+                <tr><td><strong>Space Segment</strong></td><td>$40 亿</td><td><strong style="color:var(--warning)">接近平衡</strong> — R&D 投入 $30 亿 (星舰开发)</td><td>发射收入高但星舰研发吞噬利润</td></tr>
+                <tr><td><strong>整体公司</strong></td><td>$186.74 亿</td><td><strong style="color:var(--danger)">净亏损 $49.4 亿</strong></td><td>受星舰研发、股权补偿、xAI 关联投资拖累</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3 class="subsection-title">2.3 研发支出分析</h3>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr><th>项目</th><th>FY 2025</th><th>Q1 2026</th><th>说明</th></tr>
+            </thead>
+            <tbody>
+                <tr class="highlight-row"><td><strong>Starship 研发</strong></td><td><strong>$30 亿</strong></td><td><strong>$9.3 亿</strong></td><td>下一代可重复使用火箭系统开发</td></tr>
+                <tr><td><strong>Starlink 卫星部署</strong></td><td>包含在资本支出中</td><td>—</td><td>持续发射 Gen2 卫星星座</td></tr>
+                <tr><td><strong>AI/xAI 整合</strong></td><td>显著投入</td><td>持续增加</td><td>S-1 文件强调 AI 能力整合为战略重点</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3 class="subsection-title">2.4 关键财务指标</h3>
+    <div class="card">
+        <ul>
+            <li><strong>毛利率</strong>: Starlink 业务毛利率健康，但整体公司因星舰研发和股权补偿处于亏损</li>
+            <li><strong>资本支出</strong>: 大规模资本投入用于卫星制造、发射基础设施和星舰开发</li>
+            <li><strong>现金流</strong>: 经营活动现金流为正，但自由现金流受高资本支出影响</li>
+            <li><strong>负债情况</strong>: S-1 文件披露公司存在一定债务水平，具体数额待最终文件确认</li>
+        </ul>
+    </div>
+</section>
+<!-- ==================== 第三章: 估值分析 ==================== -->
+<section class="section" id="chapter3">
+    <h2 class="section-title"><span class="icon">3</span> 第三章：估值分析与定价预测</h2>
+
+    <h3 class="subsection-title">3.1 估值区间</h3>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr><th>估值情景</th><th>估值</th><th>隐含股价 (基于 ~33.2 亿完全稀释股份)</th><th>说明</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>保守</strong></td><td>$1.75 万亿</td><td>~$525 – $530</td><td>S-1 文件基准估值</td></tr>
+                <tr class="highlight-row"><td><strong>乐观</strong></td><td>$2 万亿</td><td>~$600 – $605</td><td>市场热情高涨情景</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3 class="subsection-title">3.2 估值倍数分析</h3>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr><th>指标</th><th>数值</th><th>说明</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>P/S (市销率)</strong></td><td>~9.4x – 10.7x</td><td>基于 2025 营收 $186.74 亿，高于传统航天企业，反映高增长预期</td></tr>
+                <tr><td><strong>EV/EBITDA</strong></td><td>~26x – 30x</td><td>基于调整后 EBITDA $66 亿，反映市场对长期盈利能力的溢价</td></tr>
+                <tr><td><strong>Starlink 单独估值</strong></td><td>~$2200 亿</td><td>基于 850 万用户 × $220 亿 2026 预期营收 × 10x，若独立分拆的参考估值</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3 class="subsection-title">3.3 发行规模影响</h3>
+    <div class="card">
+        <ul>
+            <li><strong>拟募集 $750 亿</strong>: 在 $1.75 万亿估值下，意味着流通股份比例相对较小</li>
+            <li><strong>股份保留策略</strong>: SpaceX 希望保留大部分股权，维持长期控制力</li>
+            <li><strong>完全稀释股份数</strong>: 约 33.2 亿股 (含 xAI 合并调整)</li>
+        </ul>
+    </div>
+</section>
+
+<!-- ==================== 第四章: 公司治理 ==================== -->
+<section class="section" id="chapter4">
+    <h2 class="section-title"><span class="icon">4</span> 第四章：股权结构与公司治理</h2>
+
+    <h3 class="subsection-title">4.1 双重股权结构</h3>
+    <div class="mermaid-container">
+        <div class="mermaid">
+graph TD
+    A[双重股权结构] --> B[Class A 普通股]
+    A --> C[Class B 普通股]
+    B --> B1[1 票/股]
+    B --> B2[面向公众投资者]
+    C --> C1[10 票/股]
+    C --> C2[Musk 及其他内部人士]
+    C --> C3[仅 Class B 股东可投票罢免 Musk]
+        </div>
+    </div>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr><th>类别</th><th>投票权</th><th>持有者</th><th>说明</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>Class A</strong></td><td>1 票/股</td><td>公众投资者</td><td>IPO 后公开发售的股份</td></tr>
+                <tr class="highlight-row"><td><strong>Class B</strong></td><td>10 票/股</td><td>Musk 及内部人士</td><td>超级投票权，确保控制权</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3 class="subsection-title">4.2 Musk 控制权分析</h3>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr><th>指标</th><th>数值</th><th>说明</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>股权占比</strong></td><td>~42%</td><td>经济利益占比</td></tr>
+                <tr class="highlight-row"><td><strong>投票权占比</strong></td><td><strong style="color:var(--accent)">~79% – 85.1%</strong></td><td>IPO 后预计投票权</td></tr>
+                <tr><td><strong>职务</strong></td><td>CEO + CTO + 董事长</td><td>同时担任三个核心职务</td></tr>
+                <tr><td><strong>董事会</strong></td><td>9 人董事会</td><td>Musk 担任董事长</td></tr>
+                <tr><td><strong>罢免机制</strong></td><td>仅 Class B 股东可投票</td><td>公众投资者无权参与罢免投票</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3 class="subsection-title">4.3 关键治理风险</h3>
+    <div class="card">
+        <ol>
+            <li><strong>控制权集中</strong>: Musk 通过双重股权结构保持绝对控制权</li>
+            <li><strong>多重角色冲突</strong>: 同时担任 CEO、CTO 和董事长，缺乏独立监督</li>
+            <li><strong>注意力分散</strong>: Musk 同时管理 Tesla、xAI、X (Twitter) 等多家公司</li>
+            <li><strong>关联交易</strong>: SpaceX 与 xAI 之间存在业务整合和投资关系</li>
+        </ol>
+    </div>
+
+    <h3 class="subsection-title">4.4 Musk 薪酬包</h3>
+    <div class="card">
+        <ul>
+            <li><strong>火星相关补偿</strong>: S-1 文件披露 <strong>$13 亿</strong> 火星探索相关薪酬包</li>
+            <li><strong>股权激励</strong>: 大量股权补偿与公司长期目标绑定</li>
+            <li><strong>绩效条件</strong>: 薪酬与星舰开发里程碑、火星任务进度挂钩</li>
+        </ul>
+    </div>
+</section>
+
+<!-- ==================== 第五章: 业务部门 ==================== -->
+<section class="section" id="chapter5">
+    <h2 class="section-title"><span class="icon">5</span> 第五章：业务部门深度分析</h2>
+
+    <h3 class="subsection-title">5.1 Starlink — 营收引擎</h3>
+    <h4 class="subsubsection-title">5.1.1 核心数据</h4>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr><th>指标</th><th>数值</th><th>说明</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>2025 营收</strong></td><td>$114 亿</td><td>占总营收 ~60%</td></tr>
+                <tr class="highlight-row"><td><strong>2026 预期营收</strong></td><td><strong style="color:var(--success)">$220 亿</strong></td><td>同比翻倍增长预期</td></tr>
+                <tr><td><strong>用户数</strong></td><td>~850 万</td><td>全球覆盖持续扩张</td></tr>
+                <tr><td><strong>Q1 2026 收入</strong></td><td>$11.9 亿</td><td>同比增 15% (Q1 2025: $10.3 亿)</td></tr>
+                <tr><td><strong>盈利状态</strong></td><td><strong style="color:var(--success)">盈利</strong></td><td>公司主要利润来源</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h4 class="subsubsection-title">5.1.2 增长驱动因素</h4>
+    <div class="card">
+        <ul>
+            <li><strong>全球扩张</strong>: 持续进入新市场，特别是亚太、拉美和非洲地区</li>
+            <li><strong>企业/政府客户</strong>: 高 ARPU 值客户群体增长</li>
+            <li><strong>Gen2 卫星星座</strong>: 更大容量、更低延迟的下一代卫星部署</li>
+            <li><strong>直连手机服务</strong>: Direct-to-Cell 服务开辟新收入流</li>
+        </ul>
+    </div>
+
+    <h3 class="subsection-title">5.2 Space Segment — 发射业务</h3>
+    <h4 class="subsubsection-title">5.2.1 核心数据</h4>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr><th>指标</th><th>数值</th><th>说明</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>2025 营收</strong></td><td>$40 亿</td><td>占总营收 ~21.5%</td></tr>
+                <tr><td><strong>主要业务</strong></td><td>猎鹰9号/重型发射 + NASA 服务</td><td>商业和政府发射合同</td></tr>
+                <tr class="highlight-row"><td><strong>星舰研发支出</strong></td><td><strong style="color:var(--danger)">$30 亿 (2025)</strong></td><td>吞噬大部分发射业务利润</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h4 class="subsubsection-title">5.2.2 竞争格局</h4>
+    <div class="card">
+        <ul>
+            <li><strong>猎鹰9号</strong>: 全球最可靠、最高频的轨道级火箭，占据商业发射市场主导地位</li>
+            <li><strong>星舰 (Starship)</strong>: 下一代完全可重复使用系统，目标单次发射成本降至 <strong>$1000 万</strong></li>
+            <li><strong>NASA 合同</strong>: 阿尔忒弥斯登月计划 (HLS 合同) + 国际空间站货运/载人服务</li>
+        </ul>
+    </div>
+
+    <h3 class="subsection-title">5.3 星舰 (Starship) 开发</h3>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr><th>指标</th><th>数值</th><th>说明</th></tr>
+            </thead>
+            <tbody>
+                <tr class="highlight-row"><td><strong>2025 研发支出</strong></td><td><strong>$30 亿</strong></td><td>大规模投入</td></tr>
+                <tr><td><strong>Q1 2026 支出</strong></td><td>$9.3 亿</td><td>持续加速</td></tr>
+                <tr><td><strong>目标发射成本</strong></td><td>$1000 万/次</td><td>完全可重复使用设计</td></tr>
+                <tr><td><strong>战略意义</strong></td><td>火星殖民、深空探索、超低成本轨道运输</td><td>公司长期愿景核心</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+<!-- ==================== 第六章: 风险因素 ==================== -->
+<section class="section" id="chapter6">
+    <h2 class="section-title"><span class="icon">6</span> 第六章：风险因素分析</h2>
+
+    <h3 class="subsection-title">6.1 S-1 文件披露的主要风险</h3>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr><th>风险类别</th><th>风险描述</th><th>影响等级</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>财务风险</strong></td><td>公司处于净亏损状态 ($49.4 亿，2025)，未来可能持续亏损</td><td><span class="risk-high">🔴 高</span></td></tr>
+                <tr><td><strong>控制权风险</strong></td><td>Musk 通过双重股权结构保持 ~85% 投票权，公众投资者影响力有限</td><td><span class="risk-high">🔴 高</span></td></tr>
+                <tr><td><strong>技术风险</strong></td><td>星舰开发存在技术不确定性和延期风险</td><td><span class="risk-medium-high">🟡 中高</span></td></tr>
+                <tr><td><strong>竞争风险</strong></td><td>Blue Origin、ULA、Rocket Lab 等竞争对手追赶</td><td><span class="risk-medium">🟡 中</span></td></tr>
+                <tr><td><strong>监管风险</strong></td><td>FAA 发射许可、FCC 频谱审批、ITAR 出口管制</td><td><span class="risk-medium">🟡 中</span></td></tr>
+                <tr><td><strong>市场风险</strong></td><td>Starlink 用户增长放缓、ARPU 下降、地面互联网竞争</td><td><span class="risk-medium">🟡 中</span></td></tr>
+                <tr><td><strong>关键人物风险</strong></td><td>Musk 同时管理多家公司，注意力分散</td><td><span class="risk-medium">🟡 中</span></td></tr>
+                <tr><td><strong>关联交易风险</strong></td><td>与 xAI、Tesla 等关联公司的业务往来</td><td><span class="risk-medium">🟡 中</span></td></tr>
+                <tr><td><strong>地缘政治风险</strong></td><td>国际业务受制裁、贸易政策影响</td><td><span class="risk-low">🟢 中低</span></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3 class="subsection-title">6.2 关键风险深度分析</h3>
+
+    <h4 class="subsubsection-title">6.2.1 财务可持续性</h4>
+    <div class="card">
+        <ul>
+            <li><strong>亏损扩大趋势</strong>: 从 2024 年 $7.91 亿利润转为 2025 年 $49.4 亿亏损</li>
+            <li><strong>亏损驱动因素</strong>:
+                <ul>
+                    <li>星舰研发支出 ($30 亿/年)</li>
+                    <li>股权补偿费用</li>
+                    <li>xAI 相关投资损失</li>
+                    <li>债务成本</li>
+                </ul>
+            </li>
+            <li><strong>现金消耗</strong>: Q1 2026 单季亏损 $42.8 亿，若持续将消耗大量现金储备</li>
+        </ul>
+    </div>
+
+    <h4 class="subsubsection-title">6.2.2 Starlink 增长可持续性</h4>
+    <div class="card">
+        <ul>
+            <li><strong>用户获取成本</strong>: 地面终端补贴和营销费用</li>
+            <li><strong>ARPU 压力</strong>: 市场竞争可能导致定价压力</li>
+            <li><strong>资本密集度</strong>: 卫星制造和发射需要持续大规模资本投入</li>
+            <li><strong>监管障碍</strong>: 各国频谱许可和市场准入审批</li>
+        </ul>
+    </div>
+
+    <h4 class="subsubsection-title">6.2.3 星舰开发不确定性</h4>
+    <div class="card">
+        <ul>
+            <li><strong>技术复杂度</strong>: 完全可重复使用超重型火箭史无前例</li>
+            <li><strong>测试进度</strong>: 试飞计划可能延期</li>
+            <li><strong>监管审批</strong>: FAA 环境评估和发射许可流程</li>
+            <li><strong>资金需求</strong>: 持续数十亿美元年度投入</li>
+        </ul>
+    </div>
+</section>
+
+<!-- ==================== 第七章: 战略愿景 ==================== -->
+<section class="section" id="chapter7">
+    <h2 class="section-title"><span class="icon">7</span> 第七章：战略定位与长期愿景</h2>
+
+    <h3 class="subsection-title">7.1 资本用途 (Use of Proceeds)</h3>
+    <div class="card">
+        <p>根据 S-1 文件，募集资金主要用于：</p>
+        <ol>
+            <li><strong>Starlink 全球扩张</strong>: 卫星制造、发射部署、地面基础设施建设</li>
+            <li><strong>星舰开发</strong>: 完成完全可重复使用系统研发，实现低成本轨道运输</li>
+            <li><strong>AI/xAI 整合</strong>: 增强自主飞行、卫星网络优化与 AI 能力集成</li>
+            <li><strong>营运资金</strong>: 补充日常运营资金，支持业务持续增长</li>
+            <li><strong>潜在收购</strong>: 保留灵活性用于战略性收购与合作</li>
+        </ol>
+    </div>
+
+    <h3 class="subsection-title">7.2 长期战略愿景</h3>
+    <div class="card">
+        <blockquote>
+            SpaceX 的终极目标是使人类成为多星球物种。通过星舰实现火星殖民，通过 Starlink 构建全球互联网基础设施，通过可重复使用技术彻底降低太空运输成本。
+        </blockquote>
+        <ul>
+            <li><strong>火星殖民</strong>: 星舰是实现火星殖民的核心运输工具，目标在 2030 年代实现首次载人火星任务</li>
+            <li><strong>全球互联网</strong>: Starlink 最终目标覆盖全球所有地区，提供高速低延迟互联网服务</li>
+            <li><strong>太空经济</strong>: 通过降低发射成本，推动太空旅游、太空制造、小行星采矿等新兴产业发展</li>
+            <li><strong>AI 整合</strong>: 将 AI 技术深度整合到火箭自主控制、卫星网络管理和数据分析中</li>
+        </ul>
+    </div>
+
+    <h3 class="subsection-title">7.3 市场定位总结</h3>
+    <div class="summary-grid">
+        <div class="summary-item">
+            <div class="label">发射市场份额</div>
+            <div class="value accent">全球主导</div>
+        </div>
+        <div class="summary-item">
+            <div class="label">卫星互联网</div>
+            <div class="value green">市场领导者</div>
+        </div>
+        <div class="summary-item">
+            <div class="label">深空探索</div>
+            <div class="value accent">唯一玩家</div>
+        </div>
+        <div class="summary-item">
+            <div class="label">技术壁垒</div>
+            <div class="value">极高</div>
+        </div>
+    </div>
+</section>
+
+<hr>
+
+<!-- ==================== 免责声明 ==================== -->
+<section class="section">
+    <div class="card">
+        <h3 class="subsubsection-title">⚠️ 免责声明</h3>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">
+            本报告基于 SpaceX 向 SEC 提交的 Form S-1 公开文件生成，仅供信息参考，不构成任何投资建议。IPO 相关数据、估值和时间线可能随 SEC 审阅和市场情况发生变化。投资者应自行进行尽职调查并咨询专业财务顾问。所有财务数据均以美元 (USD) 计。
+        </p>
+    </div>
+</section>
+
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer class="report-footer">
+    <p><strong>SpaceX 2026 IPO 综合分析报告</strong></p>
+    <p>基于 SEC Form S-1 官方文件 · 报告生成日期: 2026年5月23日</p>
+    <p style="margin-top: 0.5rem; font-size: 0.8rem;">本报告仅供信息参考，不构成投资建议 | 数据来源: SEC EDGAR</p>
+</footer>
+
+<!-- ===== Mermaid Init ===== -->
+<script>
+    mermaid.initialize({
+        startOnLoad: true,
+        theme: 'dark',
+        themeVariables: {
+            primaryColor: '#c8a84e',
+            primaryTextColor: '#e2e8f0',
+            primaryBorderColor: '#2d3f5e',
+            lineColor: '#c8a84e',
+            secondaryColor: '#1a2d4a',
+            tertiaryColor: '#0f1f38',
+            fontFamily: '"PingFang SC", "Microsoft YaHei", sans-serif'
+        },
+        gantt: {
+            titleTopMargin: 50,
+            barHeight: 50,
+            barGap: 24,
+            topPadding: 100,
+            leftPadding: 250,
+            gridLineStartPadding: 65,
+            fontSize: 16,
+            numberSectionStyles: 4,
+            axisFormat: '%Y-%m-%d'
+        }
+    });
+</script>
+
+</body>
+</html>
