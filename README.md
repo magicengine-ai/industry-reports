@@ -14,6 +14,7 @@
 
 | 报告名称 | 行业 | 发布日期 |
 |---------|------|---------|
+| [英伟达 GPU 芯片深度研究报告](reports/nvidia_gpu_deep_research_report.html) | 半导体/GPU | 2026-06-25 |
 | [SpaceX 2026 IPO 综合分析报告](reports/spacex_2026_ipo_comprehensive_report.html) | 金融/航天 | 2026-05-23 |
 | [大语言模型（LLM）全景深度研究报告 2026](reports/llm_deep_dive_comprehensive_report_2026.html) | 人工智能/大语言模型 | 2026-05-23 |
 | [指纹传感器技术深度研究报告 2026](reports/fingerprint_sensor_deep_dive_report_2026.html) | 半导体/生物识别 | 2026-05-23 |
@@ -142,5 +143,5 @@ git push
 
 ---
 
-**最后更新：** 2026-04-03  
-**版本：** 1.8
+**最后更新：** 2026-06-25  
+**版本：** 1.9
